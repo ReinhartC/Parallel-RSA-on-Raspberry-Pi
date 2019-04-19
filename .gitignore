@@ -1,3 +1,5 @@
-
 *.exe
-*.txt
+RSA/decrypted.txt
+RSA/encrypted.txt
+RSA/privkey.txt
+RSA/pubkey.txt
