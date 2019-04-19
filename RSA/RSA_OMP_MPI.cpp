@@ -6,9 +6,13 @@
 #include <string.h>
 #include <time.h>
 
-#define MAX_STR_LEN 10000
-#define INPUT_FILE "input10k.txt"
+// 0 for Generating Public and Private key pair files
+// 1 for Encryption (Requires Input file and Public key file)
+// 2 for Decryption (Requires Input file and Private key file)
 #define COMMAND 2
+#define ENCRYPT_INPUT_FILE "input10k.txt"
+#define DECRYPT_INPUT_FILE "encrypted.txt"
+#define MAX_STR_LEN 10000
 
 long long int prime(long long int);
 long long int gcd(long long int p, long long int q);
@@ -76,9 +80,10 @@ int main(void) {
          
          
          // Plaintext load, encryption, and ciphertext writing to output file
-         std::ifstream plaintext(INPUT_FILE);
+         std::ifstream plaintext(ENCRYPT_INPUT_FILE);
          std::ofstream encrypted("encrypted.txt");         
          // Plaintext encryption loop
+		 clock_t encStart = clock();
 		 while(!plaintext.eof()){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);         			
@@ -87,11 +92,12 @@ int main(void) {
             for(int i=0; i<len; i++) 
                encrypted << outmsg_ll[i] << " ";
             encrypted << 0 << std::endl;                          
-         }       		                           
+         }		 	 
 		 plaintext.close();                
 		 encrypted.close();
                      
-         std::cout << "Encryption successful";
+         std::cout << "'" << ENCRYPT_INPUT_FILE << "'" << " encryption successful." << std::endl;
+         std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
          break;
       }
 
@@ -105,9 +111,10 @@ int main(void) {
          privkey.close();
 		 
 		 // Ciphertext load, decryption, and writing results to output file
-         std::ifstream ciphertext("encrypted.txt");
+         std::ifstream ciphertext(DECRYPT_INPUT_FILE);
          std::ofstream decrypted("decrypted.txt");
          // Ciphertext decryption loop
+         clock_t decStart = clock();
          while(!ciphertext.eof()){
             while(ciphertext >> inmsg_ll[len]) {
             	if(inmsg_ll[len]==0) break;
@@ -121,7 +128,8 @@ int main(void) {
          ciphertext.close(); 
          decrypted.close();
          
-         std::cout << "Decryption successful";
+         std::cout << "'" << DECRYPT_INPUT_FILE << "'" << " decryption successful." << std::endl;
+         std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
          break;
       }
    }
