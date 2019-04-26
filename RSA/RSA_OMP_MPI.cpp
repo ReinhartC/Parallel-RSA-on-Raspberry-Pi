@@ -9,7 +9,7 @@
 // 0 for Generating Public and Private key pair files
 // 1 for Encryption (Requires Input file and Public key file)
 // 2 for Decryption (Requires Input file and Private key file)
-#define COMMAND 2
+#define COMMAND 0
 #define ENCRYPT_INPUT_FILE "input10k.txt"
 #define DECRYPT_INPUT_FILE "encrypted.txt"
 #define MAX_STR_LEN 10000
