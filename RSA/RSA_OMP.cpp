@@ -6,14 +6,14 @@
 #include <string.h>
 #include <time.h>
 #include <omp.h>
-#include <mpi.h>
 
+// 0 for Generating Public and Private key pair files
+// 1 for Encryption (Requires Input file and Public key file)
+// 2 for Decryption (Requires Input file and Private key file)
+#define COMMAND 2
+#define ENCRYPT_INPUT_FILE "input100k.txt"
+#define DECRYPT_INPUT_FILE "encrypted.txt"
 #define MAX_STR_LEN 10000
-
-#define CHUNK 1
-#define NUM_PI_SLAVE 1
-#define NUM_THREADS 4
-#define MASTER 0
 
 long long int prime(long long int);
 long long int gcd(long long int p, long long int q);
@@ -24,32 +24,18 @@ int decrypt(long long int* inmsg, long long int, long long int, long long int* o
 int char2longlong(char* in, long long int* out);
 int longlong2char(long long int* in, char* out);
 
-// MPI Variables
-int size, rank;
-
-int main(int mpinit, char** mpinput) {
-	
-   // Setup MPI
-   MPI_Init(&mpinit, &mpinput);
-   MPI_Comm_size(MPI_COMM_WORLD, &size);
-   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-   
-   short int pi=1;
+int main(void) {
 
    long long int p,q, pube, pubmod, prive, privmod;
+   short int command=COMMAND;
    size_t len=0;
-   
-   // Process command input
-   short int command=atoi(mpinput[1]);
-   
-   // Input files
-   char* input_key_path = mpinput[2];
-   char* input_file_path = mpinput[3];
 
    char inmsg[MAX_STR_LEN];
    long long int inmsg_ll[MAX_STR_LEN];
+
    char outmsg[MAX_STR_LEN];
    long long int outmsg_ll[MAX_STR_LEN];
+
    char decrmsg[MAX_STR_LEN];
    long long int decrmsg_ll[MAX_STR_LEN];
    
@@ -87,126 +73,55 @@ int main(int mpinit, char** mpinput) {
       case 1: //Encrypt
       {
       	 //Public key load
-      	 std::ifstream pubkey(input_key_path);
+      	 std::ifstream pubkey("pubkey.txt");
          while(!pubkey.eof()){
                pubkey >> pube >> pubmod;
          }
          pubkey.close();
          
-         // Broadcasting key to nodes
-         MPI_Bcast(pube, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(pubmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          
-         // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);
-    	 	         
          // Plaintext load, encryption, and ciphertext writing to output file
-         std::ifstream plaintext(input_file_path);
+         std::ifstream plaintext(ENCRYPT_INPUT_FILE);
          std::ofstream encrypted("encrypted.txt");         
          // Plaintext encryption loop
-		 //clock_t encStart = clock();
+		 clock_t encStart = clock();
 		 while(!plaintext.eof()){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);         			
 			char2longlong(inmsg, inmsg_ll);
-			
-			// Sending data to each slave
-			if(rank == MASTER){ 
-		       MPI_Send(inmsgll, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(pube, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(pubmod, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(len, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-	        }
-	        else{
-		       MPI_Recv(inmsgll, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(pube, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(pubmod, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(len, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		    }
-	        
-			if(pi<=NUM_PI_SLAVE) pi++;
-			else pi=1;
-	        
             encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
-            
-            if(rank != MASTER)
-		       MPI_Send(outmsgll, 1, MPI_LONG_LONG, MASTER, 0 , MPI_COMM_WORLD);
-	        else
-		       MPI_Recv(outmsgll, 1, MPI_LONG_LONG, pi, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		    
-		    // Synchronisation
-            MPI_Barrier(MPI_COMM_WORLD);
-            
             for(int i=0; i<len; i++) 
                encrypted << outmsg_ll[i] << " ";
             encrypted << 0 << std::endl;                          
          }		 	 
 		 plaintext.close();                
 		 encrypted.close();
-		 
-		 // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);
-         MPI_Finalize();
                      
-         std::cout << "'" << input_file_path << "'" << " encryption successful." << std::endl;
-         //std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
+         std::cout << "'" << ENCRYPT_INPUT_FILE << "'" << " encryption successful." << std::endl;
+         std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
          break;
       }
 
       case 2: //Decrypt
       {  
 	  	 // Private key load
-	  	 std::ifstream privkey(input_key_path);
+	  	 std::ifstream privkey("privkey.txt");
          while(!privkey.eof()){
             privkey >> prive >> privmod;
          }
          privkey.close();
-         
-         // Broadcasting key to nodes
-         MPI_Bcast(prive, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         
-         // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);
 		 
 		 // Ciphertext load, decryption, and writing results to output file
-         std::ifstream ciphertext(input_file_path);
+         std::ifstream ciphertext(DECRYPT_INPUT_FILE);
          std::ofstream decrypted("decrypted.txt");
          // Ciphertext decryption loop
-         //clock_t decStart = clock();
+         clock_t decStart = clock();
          while(!ciphertext.eof()){
             while(ciphertext >> inmsg_ll[len]) {
             	if(inmsg_ll[len]==0) break;
             	len++;
 			}
-			
-			// Sending data to each slave
-			if(rank == MASTER){ 
-		       MPI_Send(inmsgll, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(prive, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(privmod, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-		       MPI_Send(len, 1, MPI_LONG_LONG, pi, 0 , MPI_COMM_WORLD);
-	        }
-	        else{
-		       MPI_Recv(inmsgll, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(prive, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(privmod, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		       MPI_Recv(len, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		    }
-		    
-		    if(pi<=NUM_PI_SLAVE) pi++;
-			else pi=1;
-			
             decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
-            
-            if(rank != MASTER)
-		       MPI_Send(outmsgll, 1, MPI_LONG_LONG, MASTER, 0 , MPI_COMM_WORLD);
-	        else
-		       MPI_Recv(outmsgll, 1, MPI_LONG_LONG, pi, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		    
-		    // Synchronisation
-            MPI_Barrier(MPI_COMM_WORLD);
-            
          	longlong2char(decrmsg_ll, decrmsg);
          	decrypted << decrmsg << std::endl;
          	len=0;
@@ -214,12 +129,8 @@ int main(int mpinit, char** mpinput) {
          ciphertext.close(); 
          decrypted.close();
          
-         // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);
-         MPI_Finalize();
-         
-         std::cout << "'" << input_file_path << "'" << " decryption successful." << std::endl;
-         //std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
+         std::cout << "'" << DECRYPT_INPUT_FILE << "'" << " decryption successful." << std::endl;
+         std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
          break;
       }
    }
@@ -264,7 +175,7 @@ int privatekey(long long int p, long long int q, long long int pubexp, long long
 
 // Encryption function
 int encrypt(long long int* in, long long int exp, long long int mod, long long int* out, size_t len){
-   #pragma omp parallel for default(shared) schedule(dynamic, CHUNK) num_threads(NUM_THREADS)
+   #pragma omp parallel for default(shared)
    for (int i=0; i < len; i++){
       long long int c = in[i];
       for (int z=1;z<exp;z++){
@@ -279,7 +190,7 @@ int encrypt(long long int* in, long long int exp, long long int mod, long long i
 
 // Decryption function
 int decrypt(long long int* in, long long int exp, long long int mod, long long int* out, size_t len){
-   #pragma omp parallel for default(shared) schedule(dynamic, CHUNK) num_threads(NUM_THREADS)
+   #pragma omp parallel for default(shared)
    for (int i=0; i < len; i++){
       long long int c = in[i];
       
