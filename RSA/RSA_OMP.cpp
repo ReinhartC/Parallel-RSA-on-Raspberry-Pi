@@ -72,10 +72,10 @@ int main(void) {
 
       case 1: //Encrypt
       {
-      	 //Public key load
-      	 std::ifstream pubkey("pubkey.txt");
+         //Public key load
+      	std::ifstream pubkey("pubkey.txt");
          while(!pubkey.eof()){
-               pubkey >> pube >> pubmod;
+            pubkey >> pube >> pubmod;
          }
          pubkey.close();
          
@@ -84,43 +84,43 @@ int main(void) {
          std::ifstream plaintext(ENCRYPT_INPUT_FILE);
          std::ofstream encrypted("encrypted.txt");         
          // Plaintext encryption loop
-		 clock_t encStart = clock();
-		 while(!plaintext.eof()){
+		   //clock_t encStart = clock();
+		   while(!plaintext.eof()){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);         			
-			char2longlong(inmsg, inmsg_ll);
+			   char2longlong(inmsg, inmsg_ll);
             encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
             for(int i=0; i<len; i++) 
                encrypted << outmsg_ll[i] << " ";
             encrypted << 0 << std::endl;                          
          }		 	 
-		 plaintext.close();                
-		 encrypted.close();
+		   plaintext.close();                
+		   encrypted.close();
                      
          std::cout << "'" << ENCRYPT_INPUT_FILE << "'" << " encryption successful." << std::endl;
-         std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
+         //std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
          break;
       }
 
       case 2: //Decrypt
       {  
-	  	 // Private key load
-	  	 std::ifstream privkey("privkey.txt");
+	  	   // Private key load
+	  	   std::ifstream privkey("privkey.txt");
          while(!privkey.eof()){
             privkey >> prive >> privmod;
          }
          privkey.close();
 		 
-		 // Ciphertext load, decryption, and writing results to output file
+		   // Ciphertext load, decryption, and writing results to output file
          std::ifstream ciphertext(DECRYPT_INPUT_FILE);
          std::ofstream decrypted("decrypted.txt");
          // Ciphertext decryption loop
-         clock_t decStart = clock();
+         //clock_t decStart = clock();
          while(!ciphertext.eof()){
             while(ciphertext >> inmsg_ll[len]) {
-            	if(inmsg_ll[len]==0) break;
+               if(inmsg_ll[len]==0) break;
             	len++;
-			}
+			   }
             decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
          	longlong2char(decrmsg_ll, decrmsg);
          	decrypted << decrmsg << std::endl;
@@ -130,7 +130,7 @@ int main(void) {
          decrypted.close();
          
          std::cout << "'" << DECRYPT_INPUT_FILE << "'" << " decryption successful." << std::endl;
-         std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
+         //std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
          break;
       }
    }
