@@ -7,7 +7,7 @@ int main(){
 //	std::cin >> a[0];
 //	std::cin >> a[1];
 //	std::cin >> a[2];
-
+	char teks[10]="";
 	c[1][1]=1;
 	c[1][2]=2;
 	c[1][3]=3;
@@ -21,6 +21,7 @@ int main(){
 //	std::cout << b[2];
 	std::cout << e[1][1][1] << std::endl;
 	std::cout << e[2][1][1] << std::endl;
+	std::cout << strlen(teks);
 	
 	return 0;
 }

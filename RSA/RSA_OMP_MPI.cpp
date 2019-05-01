@@ -59,7 +59,7 @@ int main(int mpinit, char** mpinput) {
 
    long long int encsend[MAX_LINE][MAX_STR_LEN];
    char decsend[MAX_LINE][MAX_STR_LEN];
-   
+
    long long int encout[3][MAX_LINE][MAX_STR_LEN];
    char decout[3][MAX_LINE][MAX_STR_LEN];
 
@@ -110,21 +110,18 @@ int main(int mpinit, char** mpinput) {
             while(!pubkey.eof()){
                pubkey >> pube >> pubmod;
             }
-            pubkey.close();      
+            pubkey.close();
+
+            // Plaintext load and create output file
+            std::ifstream plaintext(input_file_path);
+            std::ofstream encrypted("encrypted.txt");
          }
 
          // Broadcasting key to nodes
          MPI_Bcast(&pube, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&pubmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
-
-         if(rank == MASTER){
-            // Plaintext load, encryption, and ciphertext writing to output file
-            std::ifstream plaintext(input_file_path);
-            std::ofstream encrypted("encrypted.txt");
-         }
 
          // Plaintext encryption loop
          int work=line/NUM_PI;
@@ -135,13 +132,25 @@ int main(int mpinit, char** mpinput) {
 
             encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
 
-            for(int i=0; i<len; i++)
-               encrypted << outmsg_ll[i] << " ";
-            encrypted << 0 << std::endl;
+            for(int j=0; j<len; j++)
+               encsend[i][j] = outmsg_ll[j];
+            if(len>0) encsend[i][len] = 0;
          }
 
-         if(rank == MASTER){
+         if(rank != MASTER)
+            MPI_Send(&encsend, 1, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
+         
 
+         if(rank == MASTER){
+            memcpy(&encout[0],&encsend,sizeof(encsend));
+            MPI_Recv(&encsend,1,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            memcpy(&encout[1],&encsend,sizeof(encsend));
+            MPI_Recv(&encsend,1,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            memcpy(&encout[2],&encsend,sizeof(encsend));
+
+            for(int i=0; i<NUM_PI; i++)
+               for(int j=0; j<work; j++)
+                  encrypted << encout[i][j] << std::endl;
 
             plaintext.close();
             encrypted.close();
@@ -164,21 +173,18 @@ int main(int mpinit, char** mpinput) {
             while(!privkey.eof()){
                privkey >> prive >> privmod;
             }
-            privkey.close();      
+            privkey.close();   
+
+            // Ciphertext load, decryption, and writing results to output file
+            std::ifstream ciphertext(input_file_path);
+            std::ofstream decrypted("decrypted.txt");   
          }
 
          // Broadcasting key to nodes
          MPI_Bcast(&prive, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         
+         MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);  
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
-
-         if(rank == MASTER){
-            // Ciphertext load, decryption, and writing results to output file
-            std::ifstream ciphertext(input_file_path);
-            std::ofstream decrypted("decrypted.txt");
-         }
 
          // Ciphertext decryption loop
          int work=line/NUM_PI;
@@ -194,9 +200,9 @@ int main(int mpinit, char** mpinput) {
             len=0;
          }
 
-         if(rank != MASTER){
-             MPI_Send(&decsend, 1, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
-         }
+         if(rank != MASTER)
+            MPI_Send(&decsend, 1, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
+         
 
          if(rank == MASTER){
             memcpy(&decout[0],&decsend,sizeof(decsend));
@@ -207,7 +213,7 @@ int main(int mpinit, char** mpinput) {
 
             for(int i=0; i<NUM_PI; i++)
                for(int j=0; j<work; j++)
-                  decrypted << decout[i][j] << std::endl; 
+                  decrypted << decout[i][j] << std::endl;
 
             ciphertext.close();
             decrypted.close();
