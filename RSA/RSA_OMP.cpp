@@ -10,8 +10,8 @@
 // 0 for Generating Public and Private key pair files
 // 1 for Encryption (Requires Input file and Public key file)
 // 2 for Decryption (Requires Input file and Private key file)
-#define COMMAND 2
-#define ENCRYPT_INPUT_FILE "input100k.txt"
+#define COMMAND 1
+#define ENCRYPT_INPUT_FILE "input10k.txt"
 #define DECRYPT_INPUT_FILE "encrypted.txt"
 #define MAX_STR_LEN 10000
 
@@ -85,19 +85,16 @@ int main(void) {
          std::ofstream encrypted("encrypted.txt");         
          // Plaintext encryption loop
 		   //clock_t encStart = clock();
+		   int lnamt;
 		   while(!plaintext.eof()){
-            plaintext.getline(inmsg,MAX_STR_LEN);
-            len = strlen(inmsg);         			
-			   char2longlong(inmsg, inmsg_ll);
-            encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
-            for(int i=0; i<len; i++) 
-               encrypted << outmsg_ll[i] << " ";
-            encrypted << 0 << std::endl;                          
+            plaintext.getline(inmsg,MAX_STR_LEN);  
+			lnamt++;                       
          }		 	 
 		   plaintext.close();                
 		   encrypted.close();
                      
          std::cout << "'" << ENCRYPT_INPUT_FILE << "'" << " encryption successful." << std::endl;
+         std::cout << lnamt;
          //std::cout << "Elapsed time: " << (double)(clock() - encStart)/CLOCKS_PER_SEC << "s";
          break;
       }
@@ -116,6 +113,7 @@ int main(void) {
          std::ofstream decrypted("decrypted.txt");
          // Ciphertext decryption loop
          //clock_t decStart = clock();
+         int lnamt=0;
          while(!ciphertext.eof()){
             while(ciphertext >> inmsg_ll[len]) {
                if(inmsg_ll[len]==0) break;
@@ -125,11 +123,13 @@ int main(void) {
          	longlong2char(decrmsg_ll, decrmsg);
          	decrypted << decrmsg << std::endl;
          	len=0;
+         	lnamt++;
          }                                              
          ciphertext.close(); 
          decrypted.close();
          
          std::cout << "'" << DECRYPT_INPUT_FILE << "'" << " decryption successful." << std::endl;
+         std::cout << lnamt;
          //std::cout << "Elapsed time: " << (double)(clock() - decStart)/CLOCKS_PER_SEC << "s";
          break;
       }

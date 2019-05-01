@@ -9,7 +9,6 @@
 #include <mpi.h>
 
 #define MAX_STR_LEN 10000
-#define MAX_LINE 10000
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -56,12 +55,6 @@ int main(int mpinit, char** mpinput) {
    long long int outmsg_ll[MAX_STR_LEN];
    char decrmsg[MAX_STR_LEN];
    long long int decrmsg_ll[MAX_STR_LEN];
-
-   long long int encsend[MAX_LINE][MAX_STR_LEN];
-   char decsend[MAX_LINE][MAX_STR_LEN];
-   
-   long long int encout[3][MAX_LINE][MAX_STR_LEN];
-   char decout[3][MAX_LINE][MAX_STR_LEN];
 
    char node_name[MPI_MAX_PROCESSOR_NAME];
    int name_len;
@@ -120,11 +113,9 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
 
-         if(rank == MASTER){
-            // Plaintext load, encryption, and ciphertext writing to output file
-            std::ifstream plaintext(input_file_path);
-            std::ofstream encrypted("encrypted.txt");
-         }
+         // Plaintext load, encryption, and ciphertext writing to output file
+         std::ifstream plaintext(input_file_path);
+         std::ofstream encrypted("encrypted.txt");
 
          // Plaintext encryption loop
          int work=line/NUM_PI;
@@ -140,19 +131,15 @@ int main(int mpinit, char** mpinput) {
             encrypted << 0 << std::endl;
          }
 
-         if(rank == MASTER){
-
-
-            plaintext.close();
-            encrypted.close();
-         }
+         plaintext.close();
+         encrypted.close();
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
 
          if(rank == MASTER)
-            std::cout << std::endl << "'" << input_file_path << "'" << " file encryption done" << std::endl;
+         	std::cout << std::endl << "'" << INPUT_FILE_PATH << "'" << " file encryption done" << std::endl;
          break;
       }
 
@@ -174,51 +161,34 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
 
-         if(rank == MASTER){
-            // Ciphertext load, decryption, and writing results to output file
-            std::ifstream ciphertext(input_file_path);
-            std::ofstream decrypted("decrypted.txt");
-         }
+         // Ciphertext load, decryption, and writing results to output file
+         std::ifstream ciphertext(input_file_path);
+         std::ofstream decrypted("decrypted.txt");
 
          // Ciphertext decryption loop
          int work=line/NUM_PI;
          for(int i=rank; i<work; i+=NUM_PI){
-            while(ciphertext >> inmsg_ll[len]) {
+         	while(ciphertext >> inmsg_ll[len]) {
                if(inmsg_ll[len]==0) break;
                len++;
             }
             
             decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
 
-            longlong2char(decrmsg_ll, decsend[i]);
+            longlong2char(decrmsg_ll, decrmsg);
+            decrypted << decrmsg << std::endl;
             len=0;
          }
 
-         if(rank != MASTER){
-             MPI_Send(&decsend, 1, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
-         }
-
-         if(rank == MASTER){
-            memcpy(&decout[0],&decsend,sizeof(decsend));
-            MPI_Recv(&decsend,1,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&decout[1],&decsend,sizeof(decsend));
-            MPI_Recv(&decsend,1,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&decout[2],&decsend,sizeof(decsend));
-
-            for(int i=0; i<NUM_PI; i++)
-               for(int j=0; j<work; j++)
-                  decrypted << decout[i][j] << std::endl; 
-
-            ciphertext.close();
-            decrypted.close();
-         }
+         ciphertext.close();
+         decrypted.close();
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
 
          if(rank == MASTER)
-            std::cout << std::endl << "'" << input_file_path << "'" << " file decryption done" << std::endl;
+         	std::cout << std::endl << "'" << INPUT_FILE_PATH << "'" << " file decryption done" << std::endl;
          break;
       }
    }
