@@ -148,9 +148,9 @@ int main(int mpinit, char** mpinput) {
             MPI_Recv(&encsend,1,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             memcpy(&encout[2],&encsend,sizeof(encsend));
 
-            for(int i=0; i<NUM_PI; i++)
-               for(int j=0; j<work; j++)
-                  encrypted << encout[i][j] << std::endl;
+            for(int i=0; i<work; i++)
+               for(int j=0; j<NUM_PI; j++)
+                  encrypted << encout[j][i] << std::endl;
 
             plaintext.close();
             encrypted.close();
@@ -211,9 +211,9 @@ int main(int mpinit, char** mpinput) {
             MPI_Recv(&decsend,1,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             memcpy(&decout[2],&decsend,sizeof(decsend));
 
-            for(int i=0; i<NUM_PI; i++)
-               for(int j=0; j<work; j++)
-                  decrypted << decout[i][j] << std::endl;
+            for(int i=0; i<work; i++)
+               for(int j=0; j<NUM_PI; j++)
+                  decrypted << decout[j][i] << std::endl;
 
             ciphertext.close();
             decrypted.close();
