@@ -35,8 +35,6 @@ int main(int mpinit, char** mpinput) {
    MPI_Comm_size(MPI_COMM_WORLD, &size);
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-   short int pi=0;
-
    long long int p,q, pube, pubmod, prive, privmod;
    size_t len=0;
 
@@ -50,6 +48,7 @@ int main(int mpinit, char** mpinput) {
    // Line amount
    int line = atoi(mpinput[4]);
 
+   // Processing variables
    char inmsg[MAX_STR_LEN];
    long long int inmsg_ll[MAX_STR_LEN];
    char outmsg[MAX_STR_LEN];
@@ -57,9 +56,11 @@ int main(int mpinit, char** mpinput) {
    char decrmsg[MAX_STR_LEN];
    long long int decrmsg_ll[MAX_STR_LEN];
 
+   // Result storing variables
    long long int encsend[MAX_LINE][MAX_STR_LEN];
    char decsend[MAX_LINE][MAX_STR_LEN];
 
+   // Printing variables
    long long int encout[3][MAX_LINE][MAX_STR_LEN];
    char decout[3][MAX_LINE][MAX_STR_LEN];
 
@@ -134,24 +135,30 @@ int main(int mpinit, char** mpinput) {
 
             for(int j=0; j<len; j++)
                encsend[i][j] = outmsg_ll[j];
-            if(len>0) encsend[i][len] = 0;
+            encsend[i][len] = 0;
          }
 
          if(rank != MASTER)
-            MPI_Send(&encsend, 1, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
+            MPI_Send(&encsend, 1, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD);
          
 
          if(rank == MASTER){
             memcpy(&encout[0],&encsend,sizeof(encsend));
-            MPI_Recv(&encsend,1,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&encsend,1,MPI_LONG_LONG,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             memcpy(&encout[1],&encsend,sizeof(encsend));
-            MPI_Recv(&encsend,1,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&encsend,1,MPI_LONG_LONG,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             memcpy(&encout[2],&encsend,sizeof(encsend));
 
-            for(int i=0; i<work; i++)
-               for(int j=0; j<NUM_PI; j++)
-                  encrypted << encout[j][i] << std::endl;
-
+            for(int i=0; i<work; i++){
+               for(int j=0; j<NUM_PI; j++){
+                  for(auto x : encout[j][i]){
+                     encrypted << x << " ";
+                     if(x==0) break;
+                  }
+                  encrypted << std::endl;
+               }
+            }
+                                       
             plaintext.close();
             encrypted.close();
          }
