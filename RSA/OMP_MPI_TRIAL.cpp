@@ -113,9 +113,13 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
 
+         std::stringstream ss;
+         ss << "enc" << rank;
+         std::string tempfile = ss.str();
+
          // Plaintext load, encryption, and ciphertext writing to output file
          std::ifstream plaintext(input_file_path);
-         std::ofstream encrypted("encrypted.txt");
+         std::ofstream encrypted(tempfile);
 
          // Plaintext encryption loop
          int work=line/NUM_PI;
@@ -139,7 +143,7 @@ int main(int mpinit, char** mpinput) {
          MPI_Finalize();
 
          if(rank == MASTER)
-         	std::cout << std::endl << "'" << INPUT_FILE_PATH << "'" << " file encryption done" << std::endl;
+         	std::cout << std::endl << "'" << input_file_path << "'" << " file encryption done" << std::endl;
          break;
       }
 
@@ -159,36 +163,71 @@ int main(int mpinit, char** mpinput) {
          MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          
          // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);   
+         MPI_Barrier(MPI_COMM_WORLD);
 
          // Ciphertext load, decryption, and writing results to output file
          std::ifstream ciphertext(input_file_path);
-         std::ofstream decrypted("decrypted.txt");
 
-         // Ciphertext decryption loop
-         int work=line/NUM_PI;
-         for(int i=rank; i<line; i+=NUM_PI){
-         	while(ciphertext >> inmsg_ll[len]) {
-               if(inmsg_ll[len]==0) break;
-               len++;
+         if(rank == MASTER){
+            std::ofstream dec0("dec0");
+            // Ciphertext decryption loop
+            int work=line/NUM_PI;
+            for(int i=rank; i<line; i+=NUM_PI){
+            	while(ciphertext >> inmsg_ll[len]) {
+                  if(inmsg_ll[len]==0) break;
+                  len++;
+               }
+               
+               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
+               longlong2char(decrmsg_ll, decrmsg);
+               dec0 << decrmsg << std::endl;
+               len=0;
             }
-            
-            decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
-
-            longlong2char(decrmsg_ll, decrmsg);
-            decrypted << decrmsg << std::endl;
-            len=0;
+            dec0.close();
          }
-
+         else if(rank == 1){
+            std::ofstream dec1("dec1");
+            // Ciphertext decryption loop
+            int work=line/NUM_PI;
+            for(int i=rank; i<line; i+=NUM_PI){
+               while(ciphertext >> inmsg_ll[len]) {
+                  if(inmsg_ll[len]==0) break;
+                  len++;
+               }
+               
+               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
+               longlong2char(decrmsg_ll, decrmsg);
+               dec1 << decrmsg << std::endl;
+               len=0;
+            }
+            dec1.close();
+         }
+         else if(rank == 2){
+            std::ofstream dec2("dec2");
+            // Ciphertext decryption loop
+            int work=line/NUM_PI;
+            for(int i=rank; i<line; i+=NUM_PI){
+               while(ciphertext >> inmsg_ll[len]) {
+                  if(inmsg_ll[len]==0) break;
+                  len++;
+               }
+               
+               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
+               longlong2char(decrmsg_ll, decrmsg);
+               dec2 << decrmsg << std::endl;
+               len=0;
+            }
+            dec2.close();
+         }
          ciphertext.close();
-         decrypted.close();
+         
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
 
          if(rank == MASTER)
-         	std::cout << std::endl << "'" << INPUT_FILE_PATH << "'" << " file decryption done" << std::endl;
+         	std::cout << std::endl << "'" << input_file_path << "'" << " file decryption done" << std::endl;
          break;
       }
    }
