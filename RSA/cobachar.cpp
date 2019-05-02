@@ -21,3 +21,11 @@ int main(){
 		std::cout << std::endl << y << std::endl;
         return 0;
 }
+
+0 3
+1 4
+2 5
+
+1 4
+2 5
+3 6

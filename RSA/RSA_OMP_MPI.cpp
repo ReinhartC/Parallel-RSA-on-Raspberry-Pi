@@ -8,8 +8,8 @@
 #include <omp.h>
 #include <mpi.h>
 
-#define MAX_STR_LEN 1000
-#define MAX_LINE 2000
+#define MAX_STR_LEN 10000
+#define MAX_LINE 1000
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -118,11 +118,18 @@ int main(int mpinit, char** mpinput) {
          MPI_Bcast(&pube, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&pubmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);   
+         MPI_Barrier(MPI_COMM_WORLD);
+
+         // Amount of line to be worked by a node
+         int work = line/NUM_PI;
+
+         // Work start and end point for each nodes
+         int startline = rank*work;
+         int endline = (rank+1)*work;
 
          // Plaintext encryption loop
          std::ifstream plaintext(input_file_path);
-         for(int i=rank; i<line; i+=NUM_PI){
+         for(int i=startline; i<endline; i++){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);
             char2longlong(inmsg, inmsg_ll);
@@ -135,10 +142,8 @@ int main(int mpinit, char** mpinput) {
          }
          plaintext.close();
 
-         // Amount of line to be worked by a node
-         int work=line/NUM_PI;
          // Size of result array to send and receive
-         int sendsize = work * MAX_STR_LEN;
+         int sendsize = work*MAX_STR_LEN;
 
          // Sending worked results back to master
          if(rank != MASTER)
@@ -190,11 +195,18 @@ int main(int mpinit, char** mpinput) {
          MPI_Bcast(&prive, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);  
          // Synchronisation
-         MPI_Barrier(MPI_COMM_WORLD);   
+         MPI_Barrier(MPI_COMM_WORLD);
+
+         // Amount of line to be worked by a node
+         int work = line/NUM_PI;
+
+         // Work start and end point for each nodes
+         int startline = rank*work;
+         int endline = (rank+1)*work;
 
          // Ciphertext decryption loop
          std::ifstream ciphertext(input_file_path); 
-         for(int i=rank; i<line; i+=NUM_PI){
+         for(int i=startline; i<endline; i++){
             while(ciphertext >> inmsg_ll[len]) {
                if(inmsg_ll[len]==0) break;
                len++;
@@ -207,10 +219,8 @@ int main(int mpinit, char** mpinput) {
          }
          ciphertext.close();
 
-         // Amount of line to be worked by a node
-         int work=line/NUM_PI;
          // Size of result array to send and receive
-         int sendsize = work * MAX_STR_LEN;
+         int sendsize = work*MAX_STR_LEN;
 
          // Sending worked results back to master
          if(rank != MASTER)
