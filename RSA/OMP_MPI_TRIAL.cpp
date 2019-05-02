@@ -119,15 +119,15 @@ int main(int mpinit, char** mpinput) {
 
          // Plaintext encryption loop
          int work=line/NUM_PI;
-         for(int i=rank; i<work; i+=NUM_PI){
+         for(int i=rank; i<line; i+=NUM_PI){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);
             char2longlong(inmsg, inmsg_ll);
 
             encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
 
-            for(int i=0; i<len; i++)
-               encrypted << outmsg_ll[i] << " ";
+            for(int j=0; j<len; j++)
+               encrypted << outmsg_ll[j] << " ";
             encrypted << 0 << std::endl;
          }
 
@@ -167,7 +167,7 @@ int main(int mpinit, char** mpinput) {
 
          // Ciphertext decryption loop
          int work=line/NUM_PI;
-         for(int i=rank; i<work; i+=NUM_PI){
+         for(int i=rank; i<line; i+=NUM_PI){
          	while(ciphertext >> inmsg_ll[len]) {
                if(inmsg_ll[len]==0) break;
                len++;
