@@ -1,4 +1,5 @@
 #include <mpi.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,23 +19,38 @@ int main(int argc, char** argv) {
     MPI_Abort(MPI_COMM_WORLD, 1);
   }
 
-  int snd[5][5],number[5][5],i,j;
+  int snd[5][5]={0},number[5][5][5]={0};
   if (world_rank != 0) {
-    if(world_rank==1)
-      for(i=0;i<5;i++) snd[1][i]=i;
-    else if(world_rank==2)
-      for(i=0;i<5;i++) snd[2][i]=i+5;
-    MPI_Send(&snd,1,MPI_INT,0,0,MPI_COMM_WORLD);
-  } 
+    if(world_rank==1){
+    	for(int i=0;i<5;i++) snd[0][i]=i+6;
+    	for(int i=0;i<5;i++) snd[1][i]=i+21;
+	}
+    else if(world_rank==2){
+		for(int i=0;i<5;i++) snd[0][i]=i+11;
+		for(int i=0;i<5;i++) snd[1][i]=i+26;
+	}
+    MPI_Send(&snd,5,MPI_INT,0,0,MPI_COMM_WORLD);
+  }
 
   if (world_rank == 0) {
-    MPI_Recv(&snd,1,MPI_INT,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    memcpy(&number,&snd,sizeof(snd));
-    MPI_Recv(&snd,1,MPI_INT,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    memcpy(&number,&snd,sizeof(snd));
+    for(int i=0;i<5;i++) snd[0][i]=i+1;
+    for(int i=0;i<5;i++) snd[1][i]=i+16;
+    memcpy(&number[0],&snd,sizeof(snd));
 
-    printf("Process 1 received number %d from process sl1\n", number[1][1]);
-    printf("Process 1 received number %d from process sl2\n", number[2][1]);
+    MPI_Recv(&snd,5,MPI_INT,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    memcpy(&number[1],&snd,sizeof(snd));
+
+    MPI_Recv(&snd,5,MPI_INT,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    memcpy(&number[2],&snd,sizeof(snd));
+
+	for(int j=0;j<2;j++)
+	    for (int i=0; i<3; i++){
+	        for (auto x : number[i][j]){
+	            std::cout << x << " ";
+	            if(x==0) break;
+	        }
+	        std::cout << std::endl;
+	    }
   }
   MPI_Finalize();
 }
