@@ -3,7 +3,7 @@
 
 **Make changes to these files**
 
-### `/etc/hostname`
+#### `/etc/hostname`
 #change to desired hostname#
 
 /etc/hosts
