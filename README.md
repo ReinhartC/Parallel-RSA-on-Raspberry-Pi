@@ -9,6 +9,8 @@ This project is ...
 + [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) are tutorial to configure your Raspberry Pi(s) to create a Parallel Raspberry Pi Cluster with MPICH
 
 ### Author
-Reinhart Caesar
-05111540000132
-![Image of Me](https://instagram.fcgk12-1.fna.fbcdn.net/vp/3d391fdd0423bd688630f9d2b966c329/5D71B325/t51.2885-19/s320x320/57775454_331024247559831_6913205198164852736_n.jpg?_nc_ht=instagram.fcgk12-1.fna.fbcdn.net&_nc_cat=103)
+<p align="center">
+    <a>
+        <b>Reinhart Caesar - 5115100132<b>
+    </a>  
+</p>
