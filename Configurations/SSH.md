@@ -11,7 +11,8 @@ After key is successfully created, copy the key to a file with the node's hostna
 cd ~/.ssh
 cp id_rsa.pub NODENAME
 ```
-`NODENAME` is the hostname for the node. *E.g. `master_node`*
+**Note**
++ `NODENAME` is the hostname for the node. *E.g. `master_node`*
 
 ### Nodes key authorizing
 On each of the **slave nodes**, do the following to authorize the master node's SSH key to grant master node's connection access.
@@ -28,7 +29,8 @@ cd ~/.ssh
 scp slave_node_X:/home/pi/.ssh/slave_node_X .
 cat slave_node_X>>authorized_keys
 ```
-Do the process above for every slave nodes and replace the `X` on the `slave_node_X` to the hostname of each of the slave node
+**Note**
++ Do the process above for every slave nodes and replace the `X` on the `slave_node_X` to the hostname of each of the slave node
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/Connections.md">
