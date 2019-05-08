@@ -72,7 +72,12 @@ If it outputs the node's hostname, then the MPICH works properly.
 More on the testing of the MPICH on multiple nodes could be seen in the [Node Testing](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/Testing.md "Testing") page.
 
 <p align="center">
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/NFS.md">
+		<b>← Return to NFS configuration</b>
+	</a>  
+</p>
+<p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">
-		<b>← Return to main config page</b>
+		Return to main config page
 	</a>  
 </p>
