@@ -81,8 +81,8 @@ Process 1 of 3 is on slave_node_1
 pi is approximately 3.1415926544231318, Error is 0.0000000008333387
 wall clock time = 0.006050
 ```
-9. Check if all of the nodes that included in the machinefile are on the output.
-10. If all is fulfilled, then the parallel raspberry cluster with MPICH is successfully set up.
+9. Check if all of the nodes that are included in the machinefile are on the output.
+10. If all is fulfilled, the parallel raspberry cluster with MPICH is successfully set up.
 
 
 <p align="center">
