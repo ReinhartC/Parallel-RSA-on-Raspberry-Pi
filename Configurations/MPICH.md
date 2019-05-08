@@ -21,7 +21,7 @@ After that, create a folder to install the MPICH.
 sudo mkdir /home/rpimpi
 sudo mkdir /home/rpimpi/mpi-install
 ```
-Also create a folder to build the mpi.
+Also create a folder to build the MPICH.
 ```
 mkdir /home/pi/mpi-build
 cd /home/pi/mpi-build
@@ -30,11 +30,11 @@ On the MPICH build folder, install fortran.
 ```
 sudo apt-get -y install gfortran
 ```
-Then, install the MPICH to the target folder. (This'll took sometime)
+Then, configure the MPICH to the target folder. (This'll took sometime)
 ```
 sudo /home/pi/mpich/mpich-3.1/configure -prefix=/home/rpimpi/mpi-install
 ```
-After the above is done, do the following. (This'll took a lot of time. Make some coffee :coffee:)
+After the above is done, install the MPICH. (This'll took a lot of time. Make some coffee :coffee:)
 ```
 sudo make
 sudo make install
@@ -61,13 +61,11 @@ Also run the following to make sure that the MPICH could work.
 ```
 mpiexec -n 1 hostname
 ```
-If it outputs the node's hostname, then the MPICH works properly.
+If it outputs the node's hostname, it means MPICH is working properly.
 
-**Note**
-
-`mpicc` works for compiling C codes with MPI, while `mpicxx` works for compiling C++ codes with MPI
-
-`mpirun` and `mpiexec` have the same function to execute MPI builds
+**Notes**
++ `mpicc` works for compiling C codes with MPI, while `mpicxx` works for compiling C++ codes with MPI
++ `mpirun` and `mpiexec` have the same function to execute MPI builds
 
 More on the testing of the MPICH on multiple nodes could be seen in the [Node Testing](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/Testing.md "Testing") page.
 
