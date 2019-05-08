@@ -3,12 +3,16 @@
 
 ### Changing node hostname and known hosts
 
-+ **Change node hostname in `/etc/hostname` to a desired hostname.** *E.g.*
++ **Change node hostname in `/etc/hostname` to a desired hostname.** 
+
+*E.g.*
 ```
 master_node
 ```
 
-+ **Manage known hosts in `/etc/hosts`. Change the hostname and add other nodes IP address and hostname to the known hosts list.** *E.g.*
++ **Manage known hosts in `/etc/hosts`. Change the hostname and add other nodes IP address and hostname to the known hosts list.** 
+
+*E.g.*
 ```
 127.0.0.1       localhost
 ::1             localhost ip6-localhost ip6-loopback
