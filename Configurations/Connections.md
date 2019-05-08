@@ -30,7 +30,7 @@ ff02::2         ip6-allrouters
 ### Setting up static IP and allowing the node for multiple connection
 
 #### `/etc/network/interfaces`
-Backup the original file and create a new one with thr following.
+Backup the original file and create a new one with the following.
 ```
 auto lo
 iface lo inet loopback
