@@ -1,5 +1,5 @@
 # Raspberry Pi Nodes Connection Configuration
-**(Make changes to these files on each nodes)**
+**(Make changes to these files on every nodes)**
 
 ### Changing node hostname and known hosts
 
