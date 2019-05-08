@@ -1,5 +1,5 @@
 # Raspberry Pi Nodes NFS Configuration
-**(Do the following on each respecting nodes)**
+***(Do the following on each respecting nodes)***
 
 ## Setting up NFS Kernel Server
 Set up NFS kernel server on the **master node** with the following.
