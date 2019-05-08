@@ -10,7 +10,7 @@ The project can be seen in [Builds](https://github.com/ReinhartC/Parallel-RSA-on
 
 ## Implementing the Project
 ### Tools
-+ Raspberry Pi *(I use 3 in this project)*
++ Raspberry Pi *(I used 3 in this project)*
 + SD Cards
 + Router or Switch
 + Ethernet Cables
