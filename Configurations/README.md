@@ -1,5 +1,8 @@
 # Raspberry Pi Nodes Configuration
 
++ [Node connection configuration](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/Connections.md "Connection.md")
+
+
 ==INSTALLING MPICH2==
 (/home/pi)
 mkdir mpich2
