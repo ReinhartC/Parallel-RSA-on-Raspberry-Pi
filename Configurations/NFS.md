@@ -41,6 +41,7 @@ cd ~
 mkdir ParallelRSA
 sudo mount -t nfs master_node:/home/pi/FOLDERNAMESOURCE ./FOLDERNAMETARGET
 ```
+> Check with `df -h` to see whether or not the shared folder has been mounted
 
 To create an automatic mount after boot (only if the shared folder source is active), edit `sudo nano /etc/fstab` and add the following at the end of the file
 ```
@@ -50,7 +51,6 @@ SOURCEHOSTNAME:/home/pi/FOLDERNAMESOURCE /home/pi/FOLDERNAMETARGET nfs rw 0 0
 **Notes**
 + `FOLDERNAMESOURCE` is the shared folder name on the source node and `FOLDERNAMETARGET` is the folder name of the shared folder mount folder on the node. (To avoid confusion, the `FOLDERNAMESOURCE` and `FOLDERNAMETARGET` is better to be the same)
 + `SOURCEHOSTNAME` is the IP address or hostname of the node that provides the shared folder
-+ Check with `df -h` to see whether or not the shared folder has been mounted
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/SSH.md">
