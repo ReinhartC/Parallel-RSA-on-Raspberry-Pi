@@ -1,18 +1,31 @@
 # Raspberry Pi Nodes Configuration
 ## Node connection config
 
-**(Make changes to these files)**
+**(Make changes to these files on each nodes)**
 
 #### `/etc/hostname`
 Change to desired hostname
 
-E.g.
+##### E.g.
 ```
-Master_node
+master_node
 ```
 
-/etc/hosts
-#change add all nodes' ip and hostname#
+#### `/etc/hosts`
+Change the hostname to the new hostname and add all the other nodes' IP along with the configured hostname
+
+##### E.g.
+```
+127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+
+127.0.1.1       master_node
+192.168.0.51    slave_node_1
+192.168.0.52    slave_node_2
+```
+
 
 /etc/network/interfaces
 #fill with this#
