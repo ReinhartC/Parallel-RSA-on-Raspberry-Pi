@@ -1,12 +1,11 @@
 # Parallel RSA on Raspberry Pi
-*Hello there!*
 
-## Description
+## Project Description
 This project is ...
 
 ## Legend
-+ [Builds](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds "Builds") are the implementations of RSA Encryption and Decryption.
-+ [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) are tutorial to configure your Raspberry Pi(s) to create a Parallel Raspberry Pi Cluster with MPICH
++ [Builds](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds "Builds") are the implementations for the RSA Encryption and Decryption.
++ [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) are tutorial to configure Raspberry Pi(s) to create a Parallel Raspberry Pi Cluster with MPICH
 
 <br><br>
 <p align="center">
