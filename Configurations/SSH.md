@@ -35,3 +35,4 @@ do this for every slave nodes
 Replace the `X` on the `slave_node_x` to the hostname of the slave node
 
 [**← Return to main config page**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
+[**Continue to NFS configuration →**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/NFS.md "NFS config")
