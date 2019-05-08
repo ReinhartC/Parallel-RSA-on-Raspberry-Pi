@@ -17,7 +17,7 @@ This RSA Encryption and Decryption build works on multithread using the OpenMP i
 	</a>  
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI">
 		<b>MPI build →</b>
-	</a>   
+	</a>  
 </p>
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds">
