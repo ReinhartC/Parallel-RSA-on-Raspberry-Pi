@@ -1,4 +1,4 @@
-# RSA OpenMP and MPI hybrid Build
+# RSA OpenMP and MPI Hybrid Build
 *Parallel RSA Encryption and Decryption with OpenMP and MPI Hybrid Implementation*
 
 ## Description
