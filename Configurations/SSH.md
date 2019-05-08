@@ -40,7 +40,7 @@ Replace the `X` on the `slave_node_x` to the hostname of the slave node
 	</a>  
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/NFS.md">
 		<b>Continue to NFS configuration →</b>
-	</a>    
+	</a>   
 </p>
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">

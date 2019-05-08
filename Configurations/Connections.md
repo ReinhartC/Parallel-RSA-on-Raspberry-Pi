@@ -83,7 +83,7 @@ network={
 <p align="center"> 
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md">
 		<b>Continue to SSH configuration →</b>
-	</a>  
+	</a>   
 </p>
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">
