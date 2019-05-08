@@ -14,6 +14,6 @@
 
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master">
-        Return to Home
+        Return Home
     </a>  
 </p>
