@@ -3,7 +3,7 @@
 
 ### Changing node hostname and known hosts
 
-#### `/etc/hostname`
+#### Change node hostname in `/etc/hostname`
 Change to desired hostname
 
 *E.g.*
@@ -11,7 +11,7 @@ Change to desired hostname
 master_node
 ```
 
-#### `/etc/hosts`
+#### Change known hosts in `/etc/hosts`
 Change the hostname to the new hostname and add all the other nodes' IP along with the configured hostname
 
 *E.g.*
@@ -28,7 +28,7 @@ ff02::2         ip6-allrouters
 
 ### Setting up static IP and allowing the node for multiple connection
 
-#### `/etc/network/interfaces`
+#### Change network interface configuration in `/etc/network/interfaces`
 Backup the original file and create a new one with the following.
 ```
 auto lo
@@ -55,7 +55,7 @@ iface default inet dhcp
 + `X1.Y1.Z1` is the subnet to your ethernet connection and `NE` is the preferred static address for the node on your ethernet network. *E.g. `192.168.0.50`*.
 + `X2.Y2.Z2` is the subnet to your wireless connection and `NW` is the preferred static address for the node on your wireless network. *E.g. `192.168.1.101`*.
 
-#### `/etc/wpa_supplicant/wpa_supplicant.conf`
+#### Edit wireless interface configuration in `/etc/wpa_supplicant/wpa_supplicant.conf`
 Change this file with the following to set the node to automatically connect to the desired wireless network on every boot.
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
