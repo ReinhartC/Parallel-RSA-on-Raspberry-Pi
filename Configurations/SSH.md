@@ -2,7 +2,7 @@
 **Do the following on each respecting nodes**
 
 ### SSH key creation
-Create the SSH key for the node one **every node**
+Create the SSH key for the node on **every node**
 ```
 ssh-keygen
 ```
@@ -27,9 +27,11 @@ Then, on the **master node**, authorize the key of every slave nodes to grant co
 cd ~/.ssh
 scp slave_node_X:/home/pi/.ssh/slave_node_X .
 cat slave_node_X>>authorized_keys
-(iterate for every slave nodes)
 ```
+do this for every slave nodes
+
 **Note**
+
 Replace the `X` on the `slave_node_x` to the hostname of the slave node
 
 [<- Return to main config page](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
