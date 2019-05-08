@@ -1,16 +1,24 @@
-# RSA Encryption and Decryption OMP Build
-*These are the RSA Encryption and Decryption with OMP Multithreading*
+# RSA MPI Build
+*Multithreaded RSA Encryption and Decryption with OpenMP Implementation*
 
-### Description
-> This build utilizes multi core processing from one node. After the input file is loaded, processing of each line of the load is distributed onto multiple cores so the process runs on multithread.
+## Description
+This RSA Encryption and Decryption build works on multithread using the OpenMP implementation. The idea of this build is to process the input file which in every line, the encryption or decryption process for the characters in the line is done with multithreading, creating a faster processing on every line.
 
-The main processes are:
-1. Loading the keys (Public key on encryption and private key on decryption)
-2. Open the files that will be processed (Plaintext on encryption and ciphertext on decryption)
-3. Get how many lines of texts in the file
-4. Encrypt/decrypt all characters in every line that is given and do it on multith
-5. Print the result to a file after every line
+#### The processes are:
+1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
+2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
+3. Encrypt/Decrypt the given lines from the input file with multithread on every line.
+4. Print the result to an output file
 
+
+<p align="center">
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial">
+		<b>← Serial build</b>
+	</a>  
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI">
+		<b>MPI build →</b>
+	</a>
+</p>
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds">
         Return to Builds
