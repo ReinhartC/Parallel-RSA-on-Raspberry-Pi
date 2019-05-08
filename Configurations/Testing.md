@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-6. and build it with `mpicc -o cpi cpi.c`.
+6. Build it with `mpicc -o cpi cpi.c`.
 7. Then, run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
 8. It should output with a response from every node. *E.g.:*
 ```
