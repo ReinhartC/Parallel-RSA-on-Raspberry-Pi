@@ -1,5 +1,5 @@
 # Raspberry Pi Nodes SSH Configuration
-**Do the following on each respecting nodes**
+**(Do the following on each respecting nodes)**
 
 ### SSH key creation
 Create the SSH key for the node on **every node**

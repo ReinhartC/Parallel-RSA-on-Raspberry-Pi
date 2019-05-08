@@ -1,5 +1,5 @@
 # Raspberry Pi Nodes MPICH Configuration
-**Do the following on every nodes**
+**(Do the following on every nodes)**
 
 ## Installing MPICH
 First, create a folder for the installation files.
