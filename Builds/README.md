@@ -4,7 +4,7 @@
 ## Description
 Every builds execute the same main processes, but only differs in the job distribution to processor(s) or node(s) of some of the processes that consume a lot of time and processing power.
 
-####For every build, the main or key processes are:
+#### For every build, the main or key processes are:
 1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
 2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
 3. Encrypt/Decrypt the given lines from the input file
