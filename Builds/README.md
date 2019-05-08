@@ -1,25 +1,24 @@
 # RSA Encryption and Decryption on Raspberry Pi Builds
-*These are the RSA Encryption and Decryption builds*
+*The builds for RSA Encryption and Decryption*
 
 ## Description
-> Every builds execute the same main processes, but only differs in the job distribution of some of the processes that is iterated a lot and uses a lot of processing consumption.
+Every builds execute the same main processes, but only differs in the job distribution to processor(s) or node(s) of some of the processes that consume a lot of time and processing power.
 
-The main processes are:
-1. Loading the keys (Public key on encryption and private key on decryption)
-2. Open the files that will be processed (Plaintext on encryption and ciphertext on decryption)
-3. Get how many lines of texts in the file
-4. Encrypt/decrypt all characters in every line that is given
-5. Print the result to a file after every line
+For every build, the main or key processes are:
+1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
+2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
+4. Encrypt/Decrypt the given lines from the input file
+5. Print the result to an output file
 
 ## Builds
-+ [Serial](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial "Serial build") build is the RSA encryption and decryption implementation that is executed in a single processor on a single node
-+ [OMP](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP "OMP build") build is the RSA encryption and decryption implementation that is executed with multiple processor on a single node with the OpenMP
-+ [MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI "MPI build") build is the RSA encryption and decryption implementation that is executed with a single processor on each node in a parallel cluster with the MPI (CURRENTLY IN PROGRESS)
-+ [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with multiple processor on each node in a parallel cluster with the OpenMP and MPI Hybrid (CURRENTLY IN PROGRESS)
++ [Serial](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial "Serial build") build is the RSA encryption and decryption implementation that is executed in a *single processor* on a *single node*
++ [OMP](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP "OMP build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on a *single node* with the **OpenMP**
++ [MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI "MPI build") build is the RSA encryption and decryption implementation that is executed with a *single processor* on *multiple nodes* in a parallel cluster with the **MPI** *(CURRENTLY IN PROGRESS)*
++ [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid** *(CURRENTLY IN PROGRESS)*
 
 ## Others
-+ [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing in different sizes
-+ [~Key](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Key "~Key") are the keys that are used in the encryption and decryption process, as well as a key generator
++ [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
++ [~Keys](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Keys "~Keys") are the keys that are used in the encryption and decryption process, as well as a key generator to generate a new pair of keys
 
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master">
