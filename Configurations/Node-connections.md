@@ -3,7 +3,7 @@
 
 ### Changing node hostname and known hosts
 
-####`/etc/hostname`
+#### `/etc/hostname`
 Change to desired hostname
 
 *E.g.*
