@@ -10,18 +10,20 @@ The project can be seen in [Builds](https://github.com/ReinhartC/Parallel-RSA-on
 
 ## Implementing the Project
 ### Tools
-+ Raspberry Pi(s) *(I use 3 in this project)*
++ Raspberry Pi *(I use 3 in this project)*
++ SD Cards
 + Router or Switch
 + Ethernet Cables
 
 ### Setting Up
 Make sure every Raspberry Pi is:
-+ Running Raspbian *(Other OS could be fine, haven't tested)*
-+ SSH enabled
-+ Filesystem Expanded
-+ Boot to CLI *(Optional for faster boot)*
++ Running Raspi configured linux OS *(I used Raspbian in this project)*
++ SSH is enabled
++ Filesystem is Expanded
++ Bloatwares are uninstalled *(Optional to free up space. **Highly reccomended** for 8GB SD Cards)
++ Automatically boot to CLI *(Optional for faster boot)*
 
-To set up the cluster, simply connect each Raspberry Pi with each other through a router or a switch. Then head on to the [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) folder which contains a detailed tutorial to configure Raspberry Pi(s) to be headless and also to create a Parallel Raspberry Pi Cluster with MPICH.
+To set up the cluster, simply connect each Raspberry Pi with each other through a router or a switch. Then head on to the [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) folder which contains a tutorial to configure the Raspberry Pis to be headless and also a detailed tutorial to create a Parallel Raspberry Pi Cluster with MPICH.
 
 <br><br>
 <p align="center">
