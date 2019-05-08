@@ -87,4 +87,8 @@ wall clock time = 0.006050
 8. If every node outputs with it's hostname, then the MPI cluster is successfully set up.
 
 
-[**← Return to main config page**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
+<p align="center">
+    <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">
+        Return to main config page
+    </a>  
+</p>
