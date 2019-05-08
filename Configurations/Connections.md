@@ -80,4 +80,4 @@ network={
 
 `NETWORKSSID` is your wireless network name and `PASSKEY` is the password for the network
 
-[**Return to main config page**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
+[:arrow_lower_left: Return to main config page](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
