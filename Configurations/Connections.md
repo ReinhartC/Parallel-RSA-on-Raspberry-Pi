@@ -3,12 +3,12 @@
 
 ### Changing node hostname and known hosts
 
-+ Change node hostname in `/etc/hostname` to a desired hostname. *E.g.*
+Change node hostname in `/etc/hostname` to a desired hostname. *E.g.*
 ```
 master_node
 ```
 
-+ Manage known hosts in `/etc/hosts`. Change the hostname and add other nodes IP address and hostname to the known hosts list. *E.g.*
+Manage known hosts in `/etc/hosts`. Change the hostname and add other nodes IP address and hostname to the known hosts list. *E.g.*
 ```
 127.0.0.1       localhost
 ::1             localhost ip6-localhost ip6-loopback
@@ -22,7 +22,7 @@ ff02::2         ip6-allrouters
 
 ### Setting up static IP and allowing the node for multiple connection
 
-+ Manage network interface configuration in `/etc/network/interfaces` (after backing up the previous one) with the following.
+Manage network interface configuration in `/etc/network/interfaces` (after backing up the previous one) with the following.
 ```
 auto lo
 iface lo inet loopback
@@ -44,11 +44,12 @@ gateway X2.Y2.Z2.1
 
 iface default inet dhcp
 ```
-`X1.Y1.Z1` is the subnet to your ethernet connection and `NE` is the preferred static address for the node on your ethernet network. *E.g. `192.168.0.50`*.
+**Note**
++ `X1.Y1.Z1` is the subnet to your ethernet connection and `NE` is the preferred static address for the node on your ethernet network. *E.g. `192.168.0.50`*.
 
-`X2.Y2.Z2` is the subnet to your wireless connection and `NW` is the preferred static address for the node on your wireless network. *E.g. `192.168.1.101`*.
++ `X2.Y2.Z2` is the subnet to your wireless connection and `NW` is the preferred static address for the node on your wireless network. *E.g. `192.168.1.101`*.
 
-+ Manage wireless interface configuration in `/etc/wpa_supplicant/wpa_supplicant.conf` with the following so the wireless network is automatically connected on every reboot.
+Manage wireless interface configuration in `/etc/wpa_supplicant/wpa_supplicant.conf` with the following so the wireless network is automatically connected on every reboot.
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -66,8 +67,8 @@ network={
         priority=5
 }
 ```
-
-`NETWORKSSID` is your wireless network name and `PASSKEY` is the password for the network
+**Note**
++ `NETWORKSSID` is your wireless network name and `PASSKEY` is the password for the network
 
 <p align="center"> 
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md">
