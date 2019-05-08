@@ -1,8 +1,8 @@
 # Raspberry Pi Nodes Configuration and Tests
 
-These are the configuration tutorials to set up the nodes on the Raspberry Pi cluster so it will be able to work in parallel.
+*These are the configuration tutorials to set up the nodes on the Raspberry Pi cluster so it will be able to work in parallel.*
 
-### Configuration tutorials for Raspberry Pi Parallel nodes setups
+### Raspberry Pi nodes setups
 (Do the following in order to avoid errors)
 1. [Node connection configuration](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/Connections.md "Connections config")
 2. [Node SSH configuration](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md "SSH config")
