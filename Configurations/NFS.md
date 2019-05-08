@@ -54,4 +54,11 @@ To create an automatic mount after boot (only if the shared folder source is act
 
 `SOURCEHOSTNAME` is the IP address or hostname of the node that provides the shared folder
 
-[**← Return to main config page**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
+<p align="center">
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">
+		<b>← Return to main config page</b>
+	</a>  
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/MPICH.md">
+		<b>Continue to MPICH configuration →</b>
+	</a>
+</p>
