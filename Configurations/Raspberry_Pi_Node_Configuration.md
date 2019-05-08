@@ -1,6 +1,9 @@
-==SETTING NODES==
+# Raspberry Pi Nodes Configuration
+## Node connection config
 
-/etc/hostname
+**Make changes to these files**
+
+### `/etc/hostname`
 #change to desired hostname#
 
 /etc/hosts

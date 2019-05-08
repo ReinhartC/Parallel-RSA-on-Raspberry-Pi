@@ -44,6 +44,7 @@ int main(int mpinit, char** mpinput) {
    // Line amount
    int line = atoi(mpinput[4]);
 
+   // Processing Variables
    char inmsg[MAX_STR_LEN];
    long long int inmsg_ll[MAX_STR_LEN];
    char outmsg[MAX_STR_LEN];
