@@ -17,4 +17,4 @@ nano mpihello.cpp
 mpicxx -o mpihello mpihello.cpp
 mpirun -f machinefile -n 3 ./mpihello
 
-[<- Return to main config page](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
+[**← Return to main config page**](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations "Configurations")
