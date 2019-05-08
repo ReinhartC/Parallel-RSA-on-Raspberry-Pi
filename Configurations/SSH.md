@@ -28,7 +28,7 @@ cd ~/.ssh
 scp slave_node_X:/home/pi/.ssh/slave_node_X .
 cat slave_node_X>>authorized_keys
 ```
-do this for every slave nodes and replace the `X` on the `slave_node_X` to the hostname of each of the slave node
+Do the process above for every slave nodes and replace the `X` on the `slave_node_X` to the hostname of each of the slave node
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/Connections.md">
