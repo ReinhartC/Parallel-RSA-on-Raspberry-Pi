@@ -82,4 +82,4 @@ network={
 
 
 <a align="left" href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations"><b>← Return to main config page </b></a>
-<a align="right"href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md"><b> Continue to SSH configuration →</b></a>
+<a align="right" href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md"><b> Continue to SSH configuration →</b></a>
