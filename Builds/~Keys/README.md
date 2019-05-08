@@ -1,0 +1,6 @@
+# RSA Encryption and Decryption Keys
+*These are the RSA Encryption and Decryption Keys*
+
++ **pubkey.txt** is the public key used for encryption
++ **privkey.txt** is the private key used for decryption
++ **KEY_GENERATOR.cpp** is used to generate public and private key pair

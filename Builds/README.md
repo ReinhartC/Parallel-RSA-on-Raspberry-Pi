@@ -1,6 +1,9 @@
 # RSA Encryption and Decryption on Raspberry Pi Builds
 *These are the RSA Encryption and Decryption builds*
 
+## Description
+
+
 ## Builds
 + [Serial](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial "Serial build") build is the RSA encryption and decryption implementation that is executed in a single processor on a single node
 + [OMP](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP "OMP build") build is the RSA encryption and decryption implementation that is executed with multiple processor on a single node with the OpenMP
