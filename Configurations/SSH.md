@@ -35,9 +35,9 @@ do this for every slave nodes
 Replace the `X` on the `slave_node_x` to the hostname of the slave node
 
 <p align="center">
-	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/Connection.md">
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations/Connections.md">
 		<b>← Return to connection configuration</b>
-	</a>  
+	</a> 
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/NFS.md">
 		<b>Continue to NFS configuration →</b>
 	</a>
