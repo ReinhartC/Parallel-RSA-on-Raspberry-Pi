@@ -1,4 +1,4 @@
-# RSA MPI Build
+# RSA OpenMP Build
 *Multithreaded RSA Encryption and Decryption with OpenMP Implementation*
 
 ## Description
