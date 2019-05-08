@@ -18,6 +18,6 @@ The implementation that is used in this project is using OpenMP for the multithr
 </p>
 <p align="center">
     <a>
-        <b>Reinhart Caesar - 5115100132<b>
+        <b>Reinhart Caesar - 0511540000132<b>
     </a>  
 </p>
