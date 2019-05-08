@@ -13,10 +13,7 @@
 ```
 5. Create the CPI test with `nano cpi.c` and insert the following:
 ```c
-/*
- *  (C) 2001 by Argonne National Laboratory.
- *      See COPYRIGHT in top-level directory.
- */
+/* (C) 2001 by Argonne National Laboratory. */
 
 #include "mpi.h"
 #include <stdio.h>
@@ -46,7 +43,7 @@ int main(int argc, char *argv[])
     fprintf(stdout, "Process %d of %d is on %s\n", myid, numprocs, processor_name);
     fflush(stdout);
 
-    n = 10000;  /* default # of rectangles */
+    n = 10000;
     if (myid == 0)
         startwtime = MPI_Wtime();
 
@@ -54,7 +51,7 @@ int main(int argc, char *argv[])
 
     h = 1.0 / (double) n;
     sum = 0.0;
-    /* A slightly better approach starts from large i and works back */
+
     for (i = myid + 1; i <= n; i += numprocs) {
         x = h * ((double) i - 0.5);
         sum += f(x);
