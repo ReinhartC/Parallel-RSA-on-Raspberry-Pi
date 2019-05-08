@@ -2,7 +2,7 @@
 *These are the RSA Encryption and Decryption builds*
 
 ## Description
-Every builds execute the same main processes, but only differs in the job distribution of some of the processes that is iterated a lot and uses a lot of processing consumption.
+> Every builds execute the same main processes, but only differs in the job distribution of some of the processes that is iterated a lot and uses a lot of processing consumption.
 
 The main processes are:
 1. Loading the keys (Public key on encryption and private key on decryption)
