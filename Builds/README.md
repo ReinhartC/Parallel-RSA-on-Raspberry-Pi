@@ -10,7 +10,7 @@
 
 ### Others
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing in different sizes
-+ [~Key](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Key "~Key")are the keys that are used in the encryption and decryption process, as well as a key generator
++ [~Key](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Key "~Key") are the keys that are used in the encryption and decryption process, as well as a key generator
 
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master">
