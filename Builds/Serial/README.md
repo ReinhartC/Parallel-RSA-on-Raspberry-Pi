@@ -1,5 +1,5 @@
 # RSA Serial Build
-*RSA Encryption and Decryption serial implementation*
+*RSA Encryption and Decryption with serial implementation*
 
 ## Description
 This RSA Encryption and Decryption build is the basic of all the builds. Every process is done on serial and no parallel processing or multithreading.
