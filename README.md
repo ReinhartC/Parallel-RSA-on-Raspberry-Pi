@@ -21,7 +21,7 @@ Make sure every Raspberry Pi is:
 + SSH is enabled
 + Filesystem is Expanded
 + Bloatwares are uninstalled *(Optional to free up space. **Highly reccomended** for 8GB SD Cards)*
-+ Automatically boot to CLI *(Optional for faster boot)*
++ Automatically boots to CLI *(Optional for faster boot)*
 
 To set up the cluster, simply connect each Raspberry Pi with each other through a router or a switch. Then head on to the [Configurations](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations) folder which contains a tutorial to configure the Raspberry Pis to be headless and also a detailed tutorial to create a Parallel Raspberry Pi Cluster with MPICH.
 
