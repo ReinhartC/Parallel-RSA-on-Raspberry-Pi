@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
 }
 ```
 and build it with `mpicc -o cpi cpi.c`.
-6. Then run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
+
+6. Then, run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
 7. It should output with a response from every node like the following:
 ```
 Process 0 of 3 is on master_node
