@@ -74,10 +74,9 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-  and build it with `mpicc -o cpi cpi.c`.
-
-6. Then, run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
-7. It should output with a response from every node like the following:
+6. and build it with `mpicc -o cpi cpi.c`.
+7. Then, run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
+8. It should output with a response from every node. *E.g.:*
 ```
 Process 0 of 3 is on master_node
 Process 2 of 3 is on slave_node_2
@@ -85,7 +84,8 @@ Process 1 of 3 is on slave_node_1
 pi is approximately 3.1415926544231318, Error is 0.0000000008333387
 wall clock time = 0.006050
 ```
-8. If every node outputs with it's hostname, then the MPI cluster is successfully set up.
+9. Check if all of the nodes that included in the machinefile are on the output.
+10. If all is fulfilled, then the parallel raspberry cluster with MPICH is successfully set up.
 
 
 <p align="center">
