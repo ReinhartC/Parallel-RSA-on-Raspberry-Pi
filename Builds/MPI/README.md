@@ -1,16 +1,24 @@
-# RSA Encryption and Decryption MPI Build
-*This is the RSA Encryption and Decryption with MPI Parallel*
+# RSA MPI Build
+*Parallel RSA Encryption and Decryption with MPI Implementation*
 
-### Description
-> This build utilizes single core processing from each of the nodes in a parallel cluster. It divides the load from the input file onto multiple nodes and process each of the load that is given onto each of the nodes with a single core processing.
+## Description
+This RSA Encryption and Decryption build works on parallel using the MPI implementation. The idea of this build divide the load that is given from the input file onto each nodes, then process the divided load on parallel on every node. Then, the result of the process from every node is merged back.
 
-The main processes are:
-1. Loading the keys (Public key on encryption and private key on decryption)
-2. Open the files that will be processed (Plaintext on encryption and ciphertext on decryption)
-3. Get how many lines of texts in the file *and distribute the load to each nodes*
-4. Encrypt/decrypt all characters in every line that is given
-5. Print the result to a file after every line
+####The processes are:
+1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
+2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
+3. Divide the load from the input file to every node in the cluster
+4. Encrypt/Decrypt the given lines from the input file on parallel on every node.
+5. Merge the result and print it to an output file
 
+<p align="center">
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP">
+		<b>← OpenMP build</b>
+	</a>  
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI">
+		<b>OpenMP and MPI Hybrid build →</b>
+	</a>
+</p>
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds">
         Return to Builds

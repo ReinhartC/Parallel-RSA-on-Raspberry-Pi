@@ -4,11 +4,11 @@
 ## Description
 Every builds execute the same main processes, but only differs in the job distribution to processor(s) or node(s) of some of the processes that consume a lot of time and processing power.
 
-For every build, the main or key processes are:
+####For every build, the main or key processes are:
 1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
 2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
-4. Encrypt/Decrypt the given lines from the input file
-5. Print the result to an output file
+3. Encrypt/Decrypt the given lines from the input file
+4. Print the result to an output file
 
 ## Builds
 + [Serial](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial "Serial build") build is the RSA encryption and decryption implementation that is executed in a *single processor* on a *single node*
@@ -16,7 +16,7 @@ For every build, the main or key processes are:
 + [MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI "MPI build") build is the RSA encryption and decryption implementation that is executed with a *single processor* on *multiple nodes* in a parallel cluster with the **MPI** *(CURRENTLY IN PROGRESS)*
 + [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid** *(CURRENTLY IN PROGRESS)*
 
-## Others
+## Other
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
 + [~Keys](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Keys "~Keys") are the keys that are used in the encryption and decryption process, as well as a key generator to generate a new pair of keys
 
