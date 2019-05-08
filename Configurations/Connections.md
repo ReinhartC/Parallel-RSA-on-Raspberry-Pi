@@ -77,6 +77,6 @@ network={
 </p>
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">
-		Return to main config page
+		Return to Configurations
 	</a>  
 </p>
