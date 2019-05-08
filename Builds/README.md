@@ -16,7 +16,7 @@ Every builds execute the same main processes, but only differs in the job distri
 + [MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI "MPI build") build is the RSA encryption and decryption implementation that is executed with a *single processor* on *multiple nodes* in a parallel cluster with the **MPI** *(CURRENTLY IN PROGRESS)*
 + [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid** *(CURRENTLY IN PROGRESS)*
 
-> Time comparison between the builds above could be seen [here](https://bit.ly/2Lx7YSh "RSA Builds Time Comparison")
+> Time comparison between the builds above could be seen [here](http://tiny.cc/RSATimeComparison "RSA Builds Time Comparison")
 
 ## Other
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
