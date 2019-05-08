@@ -16,10 +16,6 @@
 #define NUM_THREADS 4
 #define MASTER 0
 
-long long int prime(long long int);
-long long int gcd(long long int p, long long int q);
-int publickey(long long int p, long long int q, long long int* exp, long long int* mod);
-int privatekey(long long int p, long long int q, long long int pubexp, long long int* exp, long long int* mod);
 int encrypt(long long int* inmsg, long long int, long long int, long long int* outmsg, size_t len);
 int decrypt(long long int* inmsg, long long int, long long int, long long int* outmsg, size_t len);
 int char2longlong(char* in, long long int* out);
@@ -35,7 +31,7 @@ int main(int mpinit, char** mpinput) {
    MPI_Comm_size(MPI_COMM_WORLD, &size);
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-   long long int p,q, pube, pubmod, prive, privmod;
+   long long int pube, pubmod, prive, privmod;
    size_t len=0;
 
    // Process command input
@@ -75,42 +71,12 @@ int main(int mpinit, char** mpinput) {
    std::cout << "Running on " << node_name << std::endl;
 
    switch(command){
-      case 0: //Generate Keys
-      {
-         // Generate prime numbers (p and q)
-         srand (time(NULL));
-
-         p=rand() % 100+1;
-         while(prime(p)!=0) p++;
-
-         q=p+rand() % 1000+1;
-         while(prime(q)!=0 || q==p) q++;
-
-        // Generating public and private key
-         publickey(p,q,&pube,&pubmod);
-         privatekey(p,q,pube,&prive,&privmod);
-
-         // Writing public and private key to a file
-         std::ofstream pubkey("pubkey.txt");
-         pubkey << pube << " " << pubmod;
-         pubkey.close();
-
-         std::ofstream privkey("privkey.txt");
-         privkey << prive << " " << privmod;
-         privkey.close();
-
-         std::cout << "Public key and Private key has been created on " << node_name << std::endl;
-         break;
-      }
-
-      case 1: //Encrypt
+      case 0: //Encrypt
       {
          if(rank == MASTER){
             // Public key load
             std::ifstream pubkey(input_key_path);
-            while(!pubkey.eof()){
-               pubkey >> pube >> pubmod;
-            }
+            pubkey >> pube >> pubmod;
             pubkey.close();
          }
 
@@ -185,14 +151,12 @@ int main(int mpinit, char** mpinput) {
          break;
       }
 
-      case 2: //Decrypt
+      case 1: //Decrypt
       {
          if(rank == MASTER){
             // Private key load
             std::ifstream privkey(input_key_path);
-            while(!privkey.eof()){
-               privkey >> prive >> privmod;
-            }
+            privkey >> prive >> privmod;
             privkey.close();           
          }
 
@@ -265,42 +229,6 @@ int main(int mpinit, char** mpinput) {
 
 }
 
-// Prime check, returns 0 if prime
-long long int prime(long long int p){
-   long long int j = sqrt(p);
-   for (long long int z=2;z<j;z++)
-      if (0==p%z) return z;
-   return 0;
-}
-
-// Public key generate functions
-int publickey(long long int p, long long int q, long long int *exp, long long int *mod){
-   *mod = (p-1)*(q-1);
-   *exp = (int)sqrt(*mod);
-
-   while (1!=gcd(*exp,*mod)) (*exp)++;
-   *mod = p*q;
-
-   return 0;
-}
-
-// Private key generate functions
-int privatekey(long long int p, long long int q, long long int pubexp, long long int *exp, long long int *mod){
-   *mod = (p-1)*(q-1);
-   *exp = 1;
-
-   long long int tmp=pubexp;
-
-   while(1!=tmp%*mod){
-      tmp+=pubexp;
-      tmp%=*mod;
-      (*exp)++;
-   }
-   *mod = p*q;
-
-   return 0;
-}
-
 // Encryption function
 int encrypt(long long int* in, long long int exp, long long int mod, long long int* out, size_t len){
    #pragma omp parallel for default(shared) schedule(dynamic, CHUNK) num_threads(NUM_THREADS)
@@ -331,23 +259,6 @@ int decrypt(long long int* in, long long int exp, long long int mod, long long i
    out[len]='\0';
 
    return 0;
-}
-
-// Greatest common divisor calculation
-long long int gcd(long long int p, long long int q){
-   if (p<q){
-      long long int tmp=p;
-      p=q;
-      q=tmp;
-   }
-
-   while (q!=0){
-      long long int tmp = q;
-      q = p%q;
-      p = tmp;
-   }
-
-   return p;
 }
 
 // Long long integer converter
