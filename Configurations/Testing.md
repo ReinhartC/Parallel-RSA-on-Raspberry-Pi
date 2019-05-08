@@ -1,9 +1,9 @@
 # Raspberry Pi Nodes Testing
-**Do the following on master node**
+***(Do the following on master node)***
 
 ## Testing the nodes connection
-1. Ping from each node to each other with `ping IPADDRESS`.
-2. SSH from the **master node** to the slave nodes, and from the **slave nodes** to the master node with `ssh pi@HOSTNAME`. If the SSH is successful without password prompt, then the connection setup is successful.
+1. Ping from each node to each other with `ping IPADDRESS` with the IP address of each other nodes
+2. SSH from the **master node** to the slave nodes, and from the **slave nodes** to the master node with `ssh pi@HOSTNAME` with the hostname of each other nodes. If the SSH is successful without password prompt, then the connection setup is successful.
 3. Create a test folder
 4. Create a `machinefile` and insert the IP addresses of all the nodes in it. *E.g.*
 ```
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-6. Build it with `mpicc -o cpi cpi.c`.
+6. Compile it with `mpicc -o cpi cpi.c`.
 7. Then, run it with `mpirun -f machinefile -n X ./cpi` and change the `X` with the amount of nodes in the cluster.
-8. It should output with a response from every node. *E.g.:*
+8. It should output with a response from every node. *E.g.*
 ```
 Process 0 of 3 is on master_node
 Process 2 of 3 is on slave_node_2
