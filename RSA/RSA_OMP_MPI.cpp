@@ -61,8 +61,8 @@ int main(int mpinit, char** mpinput) {
    char decsend[MAX_LINE][MAX_STR_LEN];
 
    // Printing variables
-   long long int encout[MAX_LINE][MAX_STR_LEN];
-   char decout[MAX_LINE][MAX_STR_LEN];
+   long long int encout[NUM_PI][MAX_LINE][MAX_STR_LEN];
+   char decout[NUM_PI][MAX_LINE][MAX_STR_LEN];
 
    char node_name[MPI_MAX_PROCESSOR_NAME];
    int name_len;
@@ -151,22 +151,27 @@ int main(int mpinit, char** mpinput) {
 
          if(rank == MASTER){
             // Result array from master_node
-            memcpy(&encout,&encsend,sizeof(encsend));
+            memcpy(&encout[0],&encsend,sizeof(encsend));
             // Result array from slave_node_1
             MPI_Recv(&encsend,sendsize,MPI_LONG_LONG,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&encout,&encsend,sizeof(encsend));
+            memcpy(&encout[1],&encsend,sizeof(encsend));
             // Result array form slave_node_2
             MPI_Recv(&encsend,sendsize,MPI_LONG_LONG,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&encout,&encsend,sizeof(encsend));
+            memcpy(&encout[2],&encsend,sizeof(encsend));
 
             // Printing results to output file
             std::ofstream encrypted("encrypted.txt");
-            for(int i=0; i<line; i++){
-               for(auto x : encout[i]){
-                  encrypted << x << " ";
-                  if(x==0) break;
+            for(int i=0; i<NUM_PI; i++){
+               int startprint = i*work;
+               int endprint = (i+1)*work;
+
+               for(int j=startprint; j<endprint; j++){
+                  for(auto x : encout[i][j]){
+                     encrypted << x << " ";
+                     if(x==0) break;
+                  }
+                  encrypted << std::endl;
                }
-               encrypted << std::endl;
             }
             encrypted.close();
          }
@@ -228,18 +233,23 @@ int main(int mpinit, char** mpinput) {
 
          if(rank == MASTER){
             // Result array from master_node
-            memcpy(&decout,&decsend,sizeof(decsend));
+            memcpy(&decout[0],&decsend,sizeof(decsend));
             // Result array from slave_node_1
             MPI_Recv(&decsend,sendsize,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&decout,&decsend,sizeof(decsend));
+            memcpy(&decout[1],&decsend,sizeof(decsend));
             // Result array from slave_node_2
             MPI_Recv(&decsend,sendsize,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            memcpy(&decout,&decsend,sizeof(decsend));
+            memcpy(&decout[2],&decsend,sizeof(decsend));
 
             // Printing results to output file
             std::ofstream decrypted("decrypted.txt");
-            for(int i=0; i<line; i++)
-               decrypted << decout[i] << std::endl;
+            for(int i=0; i<NUM_PI; i++){
+               int startprint = i*work;
+               int endprint = (i+1)*work;
+
+               for(int j=startprint; j<endprint; j++)
+                  decrypted << decout[i][j] << std::endl;
+            }
             decrypted.close();      
          }
 

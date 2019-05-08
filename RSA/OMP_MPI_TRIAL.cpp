@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string.h>
 #include <time.h>
 #include <omp.h>
@@ -113,17 +114,23 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);   
 
-         std::stringstream ss;
-         ss << "enc" << rank;
-         std::string tempfile = ss.str();
+         // Amount of line to be worked by a node
+         int work = line/NUM_PI;
+
+         // Work start and end point for each nodes
+         int startline = rank*work;
+         int endline = (rank+1)*work;
+
+         // Temp processed filename
+         std::stringstream tempfile;
+         tempfile << "enc" << rank;
 
          // Plaintext load, encryption, and ciphertext writing to output file
          std::ifstream plaintext(input_file_path);
-         std::ofstream encrypted(tempfile);
+         std::ofstream encrypted(tempfile.str());
 
          // Plaintext encryption loop
-         int work=line/NUM_PI;
-         for(int i=rank; i<line; i+=NUM_PI){
+         for(int i=startline; i<endline; i++){
             plaintext.getline(inmsg,MAX_STR_LEN);
             len = strlen(inmsg);
             char2longlong(inmsg, inmsg_ll);
@@ -165,60 +172,35 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);
 
+         // Temp processed filename
+         std::stringstream tempfile;
+         tempfile << "dec" << rank;
+
+         // Amount of line to be worked by a node
+         int work = line/NUM_PI;
+
+         // Work start and end point for each nodes
+         int startline = rank*work;
+         int endline = (rank+1)*work;
+
          // Ciphertext load, decryption, and writing results to output file
          std::ifstream ciphertext(input_file_path);
+         std::ofstream decrypted(tempfile.str());
 
-         if(rank == MASTER){
-            std::ofstream dec0("dec0");
-            // Ciphertext decryption loop
-            int work=line/NUM_PI;
-            for(int i=rank; i<line; i+=NUM_PI){
-            	while(ciphertext >> inmsg_ll[len]) {
-                  if(inmsg_ll[len]==0) break;
-                  len++;
-               }
-               
-               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
-               longlong2char(decrmsg_ll, decrmsg);
-               dec0 << decrmsg << std::endl;
-               len=0;
+         // Ciphertext decryption loop
+         for(int i=startline; i<endline; i++){
+         	while(ciphertext >> inmsg_ll[len]) {
+               if(inmsg_ll[len]==0) break;
+               len++;
             }
-            dec0.close();
+            
+            decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
+            longlong2char(decrmsg_ll, decrmsg);
+            dec0 << decrmsg << std::endl;
+            len=0;
          }
-         else if(rank == 1){
-            std::ofstream dec1("dec1");
-            // Ciphertext decryption loop
-            int work=line/NUM_PI;
-            for(int i=rank; i<line; i+=NUM_PI){
-               while(ciphertext >> inmsg_ll[len]) {
-                  if(inmsg_ll[len]==0) break;
-                  len++;
-               }
-               
-               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
-               longlong2char(decrmsg_ll, decrmsg);
-               dec1 << decrmsg << std::endl;
-               len=0;
-            }
-            dec1.close();
-         }
-         else if(rank == 2){
-            std::ofstream dec2("dec2");
-            // Ciphertext decryption loop
-            int work=line/NUM_PI;
-            for(int i=rank; i<line; i+=NUM_PI){
-               while(ciphertext >> inmsg_ll[len]) {
-                  if(inmsg_ll[len]==0) break;
-                  len++;
-               }
-               
-               decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
-               longlong2char(decrmsg_ll, decrmsg);
-               dec2 << decrmsg << std::endl;
-               len=0;
-            }
-            dec2.close();
-         }
+         
+         decrypted.close();
          ciphertext.close();
          
 
