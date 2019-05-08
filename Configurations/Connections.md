@@ -81,5 +81,5 @@ network={
 `NETWORKSSID` is your wireless network name and `PASSKEY` is the password for the network
 
 <p align="center">
-<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations">← Return to main config page</a>
-<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md">  Continue to SSH configuration →</a></p>
+<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Configurations"><b>← Return to main config page </b></a>
+<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/blob/master/Configurations/SSH.md"><b> Continue to SSH configuration →</b></a></p>
