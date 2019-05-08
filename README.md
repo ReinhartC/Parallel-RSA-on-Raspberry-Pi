@@ -17,7 +17,7 @@ The project can be seen in [Builds](https://github.com/ReinhartC/Parallel-RSA-on
 
 ### Setting Up
 Make sure every Raspberry Pi is:
-+ Running Raspi configured linux OS *(I used Raspbian in this project)*
++ Running Linux based OS *(I used Raspbian in this project)*
 + SSH is enabled
 + Filesystem is Expanded
 + Bloatwares are uninstalled *(Optional to free up space. **Highly reccomended** for 8GB SD Cards)*
