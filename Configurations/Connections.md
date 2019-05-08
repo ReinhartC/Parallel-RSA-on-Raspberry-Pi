@@ -1,7 +1,6 @@
 # Raspberry Pi Nodes Connection Configuration
 ***(Make changes to these files on every nodes)***
 
-
 ### Changing node hostname and known hosts
 
 #### `/etc/hostname`
@@ -26,8 +25,6 @@ ff02::2         ip6-allrouters
 192.168.0.51    slave_node_1
 192.168.0.52    slave_node_2
 ```
-
-
 
 ### Setting up static IP and allowing the node for multiple connection
 
@@ -55,7 +52,7 @@ gateway X2.Y2.Z2.1
 iface default inet dhcp
 ```
 **Note**
-+ `X1.Y1.Z1` is the subnet to your ethernet connection and `NE` is the preferred static address for the node on your ethernet network. *E.g. `192.168.0.50`*
++ `X1.Y1.Z1` is the subnet to your ethernet connection and `NE` is the preferred static address for the node on your ethernet network. *E.g. `192.168.0.50`*.
 +`X2.Y2.Z2` is the subnet to your wireless connection and `NW` is the preferred static address for the node on your wireless network. *E.g. `192.168.1.101`*.
 
 #### `/etc/wpa_supplicant/wpa_supplicant.conf`
