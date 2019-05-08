@@ -2,7 +2,14 @@
 *These are the RSA Encryption and Decryption builds*
 
 ## Description
+Every builds execute the same main processes, but only differs in the job distribution of some of the processes that is iterated a lot and uses a lot of processing consumption.
 
+The main processes are:
+1. Loading the keys (Public key on encryption and private key on decryption)
+2. Open the files that will be processed (Plaintext on encryption and ciphertext on decryption)
+3. Get how many lines of texts in the file
+4. Encrypt/decrypt all characters in every line that is given
+5. Print the result to a file after every line
 
 ## Builds
 + [Serial](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial "Serial build") build is the RSA encryption and decryption implementation that is executed in a single processor on a single node
