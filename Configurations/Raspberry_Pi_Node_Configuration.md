@@ -5,6 +5,7 @@
 
 #### `/etc/hostname`
 Change to desired hostname
+
 E.g.
 ```
 Master_node
