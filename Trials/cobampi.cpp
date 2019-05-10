@@ -19,38 +19,41 @@ int main(int argc, char** argv) {
     MPI_Abort(MPI_COMM_WORLD, 1);
   }
 
-  int snd[5][5]={0},number[5][5][5]={0};
-  if (world_rank != 0) {
+  char coba[6][10], tes[6][10];
+  int size=20;
+  if (world_rank == 0) {
+    strcpy(coba[0],"Node");
+    strcpy(coba[1],"0");
+    strcpy(coba[2],"Node");
+    strcpy(coba[3],"1");
+    strcpy(coba[4],"Node");
+    strcpy(coba[5],"2");
+    MPI_Send(coba[0]+size,size,MPI_BYTE,1,0,MPI_COMM_WORLD);
+    MPI_Send(coba[0]+2*size,size,MPI_BYTE,2,0,MPI_COMM_WORLD);
+  }
+  if (world_rank != 0){
+    MPI_Recv(coba[0], size, MPI_UNSIGNED, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     if(world_rank==1){
-    	for(int i=0;i<5;i++) snd[0][i]=i+6;
-    	for(int i=0;i<5;i++) snd[1][i]=i+21;
-	}
+      strcpy(tes[0],coba[0]);
+      strcpy(tes[1],coba[1]);
+    }
     else if(world_rank==2){
-		for(int i=0;i<5;i++) snd[0][i]=i+11;
-		for(int i=0;i<5;i++) snd[1][i]=i+26;
-	}
-    MPI_Send(&snd,5,MPI_INT,0,0,MPI_COMM_WORLD);
+      strcpy(tes[0],coba[0]);
+      strcpy(tes[1],coba[1]);
+    }
+    MPI_Send(tes[0],size,MPI_BYTE,0,0,MPI_COMM_WORLD);
   }
 
   if (world_rank == 0) {
-    for(int i=0;i<5;i++) snd[0][i]=i+1;
-    for(int i=0;i<5;i++) snd[1][i]=i+16;
-    memcpy(&number[0],&snd,sizeof(snd));
-
-    MPI_Recv(&snd,5,MPI_INT,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    memcpy(&number[1],&snd,sizeof(snd));
-
-    MPI_Recv(&snd,5,MPI_INT,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    memcpy(&number[2],&snd,sizeof(snd));
-
-	for(int j=0;j<2;j++)
-	    for (int i=0; i<3; i++){
-	        for (auto x : number[i][j]){
-	            std::cout << x << " ";
-	            if(x==0) break;
-	        }
-	        std::cout << std::endl;
-	    }
+    strcpy(tes[0],"Ber");
+    strcpy(tes[1],"hasil");
+    MPI_Recv(tes[0]+size,size,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    MPI_Recv(tes[0]+2*size,size,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    for(int i=0; i<6; i++)
+      std::cout<<tes[i]<<std::endl;
   }
+
+
+
   MPI_Finalize();
 }
