@@ -9,7 +9,8 @@
 #include <omp.h>
 #include <mpi.h>
 
-#define MAX_STR_LEN 10000
+#define MAX_STR_LEN 2000
+#define MAX_LINE 10000
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -32,7 +33,7 @@ int main(int mpinit, char** mpinput) {
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
    long long int pube, pubmod, prive, privmod;
-   size_t len=0;
+   size_t len[MAX_LINE];
 
    // Process command input
    short int command=atoi(mpinput[1]);
@@ -96,19 +97,40 @@ int main(int mpinit, char** mpinput) {
 
          // Plaintext encryption loop
          for(int i=startline; i<endline; i++){
-            plaintext.getline(inmsg,MAX_STR_LEN);
-            len = strlen(inmsg);
-            char2longlong(inmsg, inmsg_ll);
+            if(!plaintext.eof()){
+               plaintext.getline(inmsg,MAX_STR_LEN);
+               len = strlen(inmsg);
+               char2longlong(inmsg, inmsg_ll);
 
-            encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
+               encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
 
-            for(int j=0; j<len; j++)
-               encrypted << outmsg_ll[j] << " ";
-            encrypted << 0 << std::endl;
+               for(int j=0; j<len; j++)
+                  encrypted << outmsg_ll[j] << " ";
+               encrypted << 0 << std::endl;
+            }
          }
 
          plaintext.close();
          encrypted.close();
+
+         // Printing
+         if(rank==MASTER){
+            std::ofstream merge("decrypted.txt");
+            for(int i=0; i<3; i++){
+               std::stringstream tempprint;
+               tempprint << "dec" << i;
+
+               std::ofstream print(tempprint.str());
+               while(!print.eof()){
+                  while()
+                     encrypted << outmsg_ll[j] << " ";
+                  encrypted << 0 << std::endl;
+               }
+               print.close();
+               remove(tempprint.str());
+            }
+            merge.close();
+         }
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
@@ -165,8 +187,25 @@ int main(int mpinit, char** mpinput) {
 
          decrypted.close();
          ciphertext.close();
-         
 
+         // Printing
+         if(rank==MASTER){
+            std::ofstream merge("decrypted.txt");
+            for(int i=0; i<3; i++){
+               std::stringstream tempprint;
+               tempprint << "dec" << i;
+
+               std::ofstream print(tempprint.str());
+               while(!print.eof()){
+                  plaintext.getline(printmsg,MAX_STR_LEN);
+                  merge << printmsg << std::endl;
+               }
+               print.close();
+               remove(tempprint.str());
+            }
+            merge.close();
+         }
+         
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
