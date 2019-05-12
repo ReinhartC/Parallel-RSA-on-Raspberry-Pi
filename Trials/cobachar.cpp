@@ -26,7 +26,8 @@ int main(){
 //		std::cout << sizeof(d) << " " << sizeof(f);
 		b[0]=0;
 		strcpy(a[1],"abcd");
-		std::cout << a[b[0]]+10;
+		for(int i=0;true;i++)
+			std::cout << a[b[0]]+10;
 
         return 0;
 }
