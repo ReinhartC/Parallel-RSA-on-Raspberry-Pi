@@ -19,38 +19,22 @@ int main(int argc, char** argv) {
     MPI_Abort(MPI_COMM_WORLD, 1);
   }
 
-  char coba[6][10], tes[6][10];
-  int size=2*10;
+  int angka[6][10];
+  int size=1*10;
   if (world_rank == 0) {
-    strcpy(coba[0],"Node");
-    strcpy(coba[1],"0");
-    strcpy(coba[2],"Node");
-    strcpy(coba[3],"1");
-    strcpy(coba[4],"Node");
-    strcpy(coba[5],"2");
-    MPI_Send(coba[0]+size,size,MPI_BYTE,1,0,MPI_COMM_WORLD);
-    MPI_Send(coba[0]+2*size,size,MPI_BYTE,2,0,MPI_COMM_WORLD);
+    for(int i=0; i<10; i++) angka[1][i]=i;
+    for(int i=11; i<20; i++) angka[2][i]=i;
+    MPI_Send(angka[0]+size,size,MPI_INT,1,0,MPI_COMM_WORLD);
+    MPI_Send(angka[0]+2*size,size,MPI_INT,2,0,MPI_COMM_WORLD);
   }
   if (world_rank != 0){
-    MPI_Recv(coba[0], size, MPI_UNSIGNED, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(angka[0], size, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     if(world_rank==1){
-      strcpy(tes[0],coba[0]);
-      strcpy(tes[1],coba[1]);
+      for(int i=0; i<10; i++) std::cout<<angka[0][i];
     }
     else if(world_rank==2){
-      strcpy(tes[0],coba[0]);
-      strcpy(tes[1],coba[1]);
+      for(int i=11; i<20; i++) std::cout<<angka[0][i];
     }
-    MPI_Send(tes[0],size,MPI_BYTE,0,0,MPI_COMM_WORLD);
-  }
-
-  if (world_rank == 0) {
-    strcpy(tes[0],"Ber");
-    strcpy(tes[1],"hasil");
-    MPI_Recv(tes[0]+size,size,MPI_BYTE,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    MPI_Recv(tes[0]+2*size,size,MPI_BYTE,2,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    for(int i=0; i<6; i++)
-      std::cout<<tes[i]<<std::endl;
   }
 
 

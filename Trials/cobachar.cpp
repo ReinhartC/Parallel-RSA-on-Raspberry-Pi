@@ -5,7 +5,7 @@
 
 int main(){
 //        int d[3][5]={0}, e[3][5]={0}, g[3][5]={0}, f[3][3][10];
-		  char a[5][10]; int b[5];
+		  int a[5][10], b=35;
 		
 //        for(int i=0;i<2;i++) d[0][i]=i+1;
 //        memcpy(&f[0],&d,sizeof(d));
@@ -24,10 +24,12 @@ int main(){
 //		int y = x * MAX;
 //		std::cout << std::endl << y << std::endl;
 //		std::cout << sizeof(d) << " " << sizeof(f);
-		b[0]=0;
-		strcpy(a[1],"abcd");
-		for(int i=0;true;i++)
-			std::cout << a[b[0]]+10;
+		for(int i=0; i<5; i++) a[1][i]=i;
+		//for(int i=0;i<5;i++)
+		//	std::cout << a[0]+10;
+		while(b%3) b++;
+		std::cout<< b;
+		
 
         return 0;
 }
