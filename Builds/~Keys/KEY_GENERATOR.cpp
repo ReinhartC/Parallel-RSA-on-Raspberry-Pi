@@ -28,11 +28,11 @@ int main(){
    privatekey(p,q,pube,&prive,&privmod);
 
    // Writing public and private key to a file
-   std::ofstream pubkey("pubkey.txt");
+   std::ofstream pubkey("public.key");
    pubkey << pube << " " << pubmod;
    pubkey.close();
 
-   std::ofstream privkey("privkey.txt");
+   std::ofstream privkey("private.key");
    privkey << prive << " " << privmod;
    privkey.close();
 

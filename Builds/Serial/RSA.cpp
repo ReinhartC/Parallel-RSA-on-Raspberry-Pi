@@ -39,7 +39,7 @@ int main(void) {
       case 0: //Encrypt
       {
          //Public key load
-         std::ifstream pubkey("pubkey.txt");
+         std::ifstream pubkey("public.key");
          pubkey >> pube >> pubmod;
          pubkey.close();
          
@@ -70,7 +70,7 @@ int main(void) {
       case 1: //Decrypt
       {  
          // Private key load
-         std::ifstream privkey("privkey.txt");
+         std::ifstream privkey("private.key");
          privkey >> prive >> privmod;
          privkey.close();
        

@@ -3,12 +3,13 @@
 #include <limits.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string.h>
+#include <time.h>
 #include <omp.h>
 #include <mpi.h>
 
 #define MAX_STR_LEN 2000
-#define MAX_LINE 1000
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -31,7 +32,7 @@ int main(int mpinit, char** mpinput) {
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
    long long int pube, pubmod, prive, privmod;
-   size_t len[MAX_LINE];
+   size_t len=0;
 
    // Process command input
    short int command=atoi(mpinput[1]);
@@ -44,10 +45,12 @@ int main(int mpinit, char** mpinput) {
    int line = atoi(mpinput[4]);
 
    // Processing Variables
-   char inmsg[MAX_LINE][MAX_STR_LEN];
-   long long int inmsg_ll[MAX_LINE][MAX_STR_LEN];
-   char outmsg[MAX_LINE][MAX_STR_LEN];
-   long long int outmsg_ll[MAX_LINE][MAX_STR_LEN];
+   char inmsg[MAX_STR_LEN];
+   long long int inmsg_ll[MAX_STR_LEN];
+   char outmsg[MAX_STR_LEN];
+   long long int outmsg_ll[MAX_STR_LEN];
+   char decrmsg[MAX_STR_LEN];
+   long long int decrmsg_ll[MAX_STR_LEN];
 
    char node_name[MPI_MAX_PROCESSOR_NAME];
    int name_len;
@@ -66,75 +69,53 @@ int main(int mpinit, char** mpinput) {
             // Public key load
             std::ifstream pubkey(input_key_path);
             pubkey >> pube >> pubmod;
-            pubkey.close();
-
-            // Plaintext load
-            std::ifstream plaintext(input_file_path);
-            for(int i=0; i<line; i++){
-               plaintext.getline(inmsg[i],MAX_STR_LEN);
-               len[i] = strlen(inmsg[i]);
-            }
-            plaintext.close();
+            pubkey.close();      
          }
 
          // Broadcasting key to nodes
          MPI_Bcast(&pube, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&pubmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
-
-         // Synchronisation after broadcasting
-         MPI_Barrier(MPI_COMM_WORLD);
+         
+         // Synchronisation
+         MPI_Barrier(MPI_COMM_WORLD);   
 
          // Amount of line to be worked by a node
          int work = line/NUM_PI;
-         int sendsize = work*MAX_STR_LEN;
 
-         // Distributing plaintext to nodes
-         if(rank == MASTER){
-            MPI_Send(inmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD);
-            MPI_Send(inmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD);
-         }
-         if(rank != MASTER){
-            MPI_Recv(inmsg[0], sendsize, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-         }
-
-         // Start point for each nodes
+         // Work start and end point for each nodes
          int startline = rank*work;
+         int endline = (rank+1)*work;
+
+         // Temp processed filename
+         std::stringstream tempfile;
+         tempfile << "enc" << rank;
+
+         // Plaintext load, encryption, and ciphertext writing to output file
+         std::ifstream plaintext(input_file_path);
+         std::ofstream encrypted(tempfile.str());
 
          // Plaintext encryption loop
-         for(int i=0; i<work; i++){
-            char2longlong(inmsg[i], inmsg_ll[i]);
-            encrypt(inmsg_ll[i], pube, pubmod, outmsg_ll[i], len[i+startline]);
+         for(int i=startline; i<endline; i++){
+            plaintext.getline(inmsg,MAX_STR_LEN);
+            len = strlen(inmsg);
+            char2longlong(inmsg, inmsg_ll);
+
+            encrypt(inmsg_ll, pube, pubmod, outmsg_ll, len);
+
+            for(int j=0; j<len; j++)
+               encrypted << outmsg_ll[j] << " ";
+            encrypted << 0 << std::endl;
          }
 
-         // Collecting encrypted text back to master node
-         if(rank != MASTER){
-            MPI_Send(outmsg_ll[0], sendsize, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD);
-         }
-         if(rank == MASTER){
-            MPI_Recv(outmsg_ll[0]+sendsize, sendsize, MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(outmsg_ll[0]+2*sendsize, sendsize, MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-         }
-
-         // Synchronisation before printing
-         MPI_Barrier(MPI_COMM_WORLD);
-
-         if(rank == MASTER){
-            std::ofstream encrypted("encrypted.txt");
-            for(int i=0; i<line; i++){
-               for(int j=0; j<len[i]; j++)
-                  encrypted << outmsg_ll[i][j] << " ";
-               encrypted << std::endl;
-            }
-            encrypted.close();
-         }
+         plaintext.close();
+         encrypted.close();
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
 
          if(rank == MASTER)
-         	std::cout << std::endl << "'" << input_file_path << "'" << " file encryption done" << std::endl;
+            std::cout << std::endl << "'" << input_file_path << "'" << " file encryption done" << std::endl;
          break;
       }
 
@@ -144,75 +125,54 @@ int main(int mpinit, char** mpinput) {
             // Private key load
             std::ifstream privkey(input_key_path);
             privkey >> prive >> privmod;
-            privkey.close();
-
-            // Ciphertext load
-            std::ifstream ciphertext(input_file_path);
-            for(int i=0; i<line; i++){
-               len[i]=0;
-               while(ciphertext >> inmsg_ll[i][len[i]]) {
-                  len[i]++;
-                  if(inmsg_ll[i][len[i]]==0) break;
-               }
-            }
-            ciphertext.close();
+            privkey.close();      
          }
 
          // Broadcasting key to nodes
          MPI_Bcast(&prive, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
-
+         
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);
 
+         // Temp processed filename
+         std::stringstream tempfile;
+         tempfile << "dec" << rank;
+
          // Amount of line to be worked by a node
          int work = line/NUM_PI;
-         int sendsize = work*MAX_STR_LEN;
 
-         // Distributing ciphertext to nodes
-         if(rank == MASTER){
-            MPI_Send(inmsg_ll[0]+sendsize, sendsize, MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD);
-            MPI_Send(inmsg_ll[0]+2*sendsize, sendsize, MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD);
-         }
-         if(rank != MASTER){
-            MPI_Recv(inmsg_ll[0], sendsize, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-         }
-
-         // Start point for each nodes
+         // Work start and end point for each nodes
          int startline = rank*work;
+         int endline = (rank+1)*work;
+
+         // Ciphertext load, decryption, and writing results to output file
+         std::ifstream ciphertext(input_file_path);
+         std::ofstream decrypted(tempfile.str());
 
          // Ciphertext decryption loop
-         for(int i=0; i<work; i++){
-            decrypt(inmsg_ll[i], prive, privmod, outmsg_ll[i], len[i+startline]);
-            longlong2char(outmsg_ll[i], outmsg[i]);
+         for(int i=startline; i<endline; i++){
+            while(ciphertext >> inmsg_ll[len]) {
+               if(inmsg_ll[len]==0) break;
+               len++;
+            }
+            
+            decrypt(inmsg_ll, prive, privmod, decrmsg_ll, len);
+            longlong2char(decrmsg_ll, decrmsg);
+            decrypted << decrmsg << std::endl;
+            len=0;
          }
 
-         // Collecting decrypted text back to master node
-         if(rank != MASTER){
-            MPI_Send(outmsg[0], sendsize, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
-         }
-         if(rank == MASTER){
-            MPI_Recv(outmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(outmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-         }
-
-         // Synchronisation before printing
-         MPI_Barrier(MPI_COMM_WORLD);
-
-         if(rank == MASTER){
-            std::ofstream decrypted("decrypted.txt");
-            for(int i=0; i<line; i++)
-               decrypted << outmsg[i] << std::endl;
-            decrypted.close();
-         }
+         decrypted.close();
+         ciphertext.close();
+         
 
          // Final synchronisation and finalizing
          MPI_Barrier(MPI_COMM_WORLD);
          MPI_Finalize();
 
          if(rank == MASTER)
-         	std::cout << std::endl << "'" << input_file_path << "'" << " file decryption done" << std::endl;
+            std::cout << std::endl << "'" << input_file_path << "'" << " file decryption done" << std::endl;
          break;
       }
    }
