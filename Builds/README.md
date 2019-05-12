@@ -22,6 +22,8 @@ Every builds execute the same main processes, but only differs in the job distri
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
 + [~Keys](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Keys "~Keys") are the keys that are used in the encryption and decryption process, as well as a key generator to generate a new pair of keys
 
+> **LoadBalance.cpp** is a load balance algorithm that will be applied to the MPI with OpenMP implementation for better load distribution on future update
+
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master">
         Return Home
