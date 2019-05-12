@@ -5,11 +5,14 @@ using namespace std;
 
 int main(){
 	float time[3];
+
 	float work[3];
-	float sum;
+	float sum=0;
+
 	int load[3];
-	float line=100;
-	
+	int total=0;
+
+	int line=100;	
 	time[0]=167;
 	time[1]=81;
 	time[2]=483;
@@ -19,12 +22,12 @@ int main(){
       sum += work[i];
    }	
 	
-   for(int i=0; i<3;i++) 
+   for(int i=0; i<3;i++){
       load[i] = (work[i]/sum)*line;
+      total += load[i];
+   }
 	
    int node=0;
-   int total = load[0]+load[1]+load[2];
-
    while(total!=line){
       if(total<line) load[node]++;
       else if(total>line) load[node]--;

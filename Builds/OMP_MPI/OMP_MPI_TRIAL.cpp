@@ -3,14 +3,12 @@
 #include <limits.h>
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string.h>
-#include <time.h>
 #include <omp.h>
 #include <mpi.h>
 
 #define MAX_STR_LEN 2000
-#define MAX_LINE 5000
+#define MAX_LINE 1000
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -72,7 +70,7 @@ int main(int mpinit, char** mpinput) {
 
             // Plaintext load
             std::ifstream plaintext(input_file_path);
-            for(int i=0; !plaintext.eof(); i++){
+            for(int i=0; i<line; i++){
                plaintext.getline(inmsg[i],MAX_STR_LEN);
                len[i] = strlen(inmsg[i]);
             }
@@ -82,7 +80,7 @@ int main(int mpinit, char** mpinput) {
          // Broadcasting key to nodes
          MPI_Bcast(&pube, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&pubmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(&len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
+         MPI_Bcast(len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
 
          // Synchronisation after broadcasting
          MPI_Barrier(MPI_COMM_WORLD);
@@ -122,12 +120,10 @@ int main(int mpinit, char** mpinput) {
          MPI_Barrier(MPI_COMM_WORLD);
 
          if(rank == MASTER){
-            std::ifstream encrypted("encrypted.txt");
+            std::ofstream encrypted("encrypted.txt");
             for(int i=0; i<line; i++){
-               for(auto print : outmsg_ll[i]){
-                  encrypted << print << " ";
-                  if(print==0) break;
-               }
+               for(int j=0; j<len[i]; j++)
+                  encrypted << outmsg_ll[i][j] << " ";
                encrypted << std::endl;
             }
             encrypted.close();
@@ -152,7 +148,7 @@ int main(int mpinit, char** mpinput) {
 
             // Ciphertext load
             std::ifstream ciphertext(input_file_path);
-            for(int i=0; !ciphertext.eof(); i++){
+            for(int i=0; i<line; i++){
                len[i]=0;
                while(ciphertext >> inmsg_ll[i][len[i]]) {
                   len[i]++;
@@ -165,7 +161,7 @@ int main(int mpinit, char** mpinput) {
          // Broadcasting key to nodes
          MPI_Bcast(&prive, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
          MPI_Bcast(&privmod, 1, MPI_LONG_LONG, MASTER, MPI_COMM_WORLD);
-         MPI_Bcast(&len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
+         MPI_Bcast(len, line, MPI_UNSIGNED, MASTER, MPI_COMM_WORLD);
 
          // Synchronisation
          MPI_Barrier(MPI_COMM_WORLD);
@@ -205,7 +201,7 @@ int main(int mpinit, char** mpinput) {
          MPI_Barrier(MPI_COMM_WORLD);
 
          if(rank == MASTER){
-            std::ifstream decrypted("decrypted.txt");
+            std::ofstream decrypted("decrypted.txt");
             for(int i=0; i<line; i++)
                decrypted << outmsg[i] << std::endl;
             decrypted.close();

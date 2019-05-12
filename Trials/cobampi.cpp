@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
   }
 
   char coba[6][10], tes[6][10];
-  int size=20;
+  int size=2*10;
   if (world_rank == 0) {
     strcpy(coba[0],"Node");
     strcpy(coba[1],"0");
