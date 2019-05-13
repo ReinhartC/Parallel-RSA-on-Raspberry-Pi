@@ -8,7 +8,7 @@
 #include <mpi.h>
 
 #define MAX_STR_LEN 200
-#define MAX_LINE 1000
+#define MAX_LINE 1002
 
 #define CHUNK 1
 #define NUM_PI 3
@@ -42,6 +42,7 @@ int main(int mpinit, char** mpinput) {
 
    // Line amount and adjustment
    int line = atoi(mpinput[4]);
+   while(line%NUM_PI) line++;
 
    // Processing Variables
    char inmsg[MAX_LINE][MAX_STR_LEN];
@@ -54,10 +55,13 @@ int main(int mpinit, char** mpinput) {
    MPI_Get_processor_name(node_name, &name_len);
 
    if (rank == MASTER)
-      std::cout << "Parallel RSA with OpenMP and MPI"<< std::endl << std::endl;
-   
+      std::cout << "Parallel RSA with OpenMP and MPI running on node:";
+
+   // Synchronizing before start
+   MPI_Barrier(MPI_COMM_WORLD);
+
    // Show running nodes
-   std::cout << "Running on " << node_name << std::endl;
+   std::cout << " " << node_name << " ";
 
    switch(command){
       case 0: //Encrypt
@@ -86,10 +90,7 @@ int main(int mpinit, char** mpinput) {
          MPI_Barrier(MPI_COMM_WORLD);
 
          // Fixed nodes workload distribution
-         int work = line;
-         while(work%NUM_PI) work++;
-         work /= NUM_PI;
-
+         int work = line/NUM_PI;
          int sendsize = work*MAX_STR_LEN;
 
          // Distributing plaintext to nodes
@@ -122,6 +123,7 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation before printing
          MPI_Barrier(MPI_COMM_WORLD);
 
+         // Printing results on master
          if(rank == MASTER){
             std::ofstream encrypted("encrypted.txt");
             for(int i=0; i<line; i++){
@@ -172,10 +174,7 @@ int main(int mpinit, char** mpinput) {
          MPI_Barrier(MPI_COMM_WORLD);
 
          // Fixed nodes workload distribution
-         int work = line;
-         while(work%NUM_PI) work++;
-         work /= NUM_PI;
-
+         int work = line/NUM_PI;
          int sendsize = work*MAX_STR_LEN;
 
          // Distributing ciphertext to nodes
@@ -208,6 +207,7 @@ int main(int mpinit, char** mpinput) {
          // Synchronisation before printing
          MPI_Barrier(MPI_COMM_WORLD);
 
+         // Printing results on master
          if(rank == MASTER){
             std::ofstream decrypted("decrypted.txt");
             for(int i=0; i<line; i++)
