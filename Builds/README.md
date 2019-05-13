@@ -15,7 +15,7 @@ Every builds execute the same main processes, but only differs in the job distri
 + [OMP](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP "OMP build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on a *single node* with the **OpenMP**
 + [MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI "MPI build") build is the RSA encryption and decryption implementation that is executed with a *single processor* on *multiple nodes* in a parallel cluster with the **MPI**
 + [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**
-+ [LB_OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "LB_OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**, that used a load balancing in the **MPI** work distribution
++ [LB_OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI "LB_OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**, that used a load balancing in the **MPI** work distribution
 
 > *Time comparison between the builds above could be seen [here](http://tiny.cc/RSATimeComparison "RSA Builds Time Comparison")*
 

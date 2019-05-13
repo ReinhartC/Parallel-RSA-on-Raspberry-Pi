@@ -15,6 +15,9 @@ This RSA Encryption and Decryption build works on parallel using the MPI impleme
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI">
 		<b>← MPI build</b>
 	</a>  
+	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI">
+		<b>Load balanced OpenMP and MPI Hybrid build →</b>
+	</a>
 </p>
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds">
