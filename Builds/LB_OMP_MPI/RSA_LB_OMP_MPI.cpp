@@ -17,6 +17,7 @@
 
 int encrypt(long long int* inmsg, long long int, long long int, long long int* outmsg, size_t len);
 int decrypt(long long int* inmsg, long long int, long long int, long long int* outmsg, size_t len);
+int loadBalance(double* in, int* out, int line);
 int char2longlong(char* in, long long int* out);
 int longlong2char(long long int* in, char* out);
 
@@ -42,7 +43,6 @@ int main(int mpinit, char** mpinput) {
 
    // Line amount and adjustment
    int line = atoi(mpinput[4]);
-   while(line%NUM_PI) line++;
 
    // Processing Variables
    char inmsg[MAX_LINE][MAX_STR_LEN];
@@ -51,8 +51,8 @@ int main(int mpinit, char** mpinput) {
    long long int outmsg_ll[MAX_LINE][MAX_STR_LEN];
 
    // Load Balancing Variables
-   float lasttime[NUM_PI];
-   float elapsedtime[NUM_PI];
+   double lasttime[NUM_PI];
+   double elapsedtime[NUM_PI];
    int load[NUM_PI];
    int sendsize[NUM_PI];
 
@@ -79,13 +79,14 @@ int main(int mpinit, char** mpinput) {
             pubkey.close();
 
             // Performance summary load
-            std::ifstream time("performance.txt");
+            std::ifstream time("performance");
             for(int i=0; i<NUM_PI; i++)
                time >> lasttime[i];
             time.close();
 
             // Calculate load distribution
             loadBalance(lasttime, load, line);
+
             // Sendsizes for every nodes
             for(int i=0; i<NUM_PI; i++)
                sendsize[i] = load[i]*MAX_STR_LEN;
@@ -124,27 +125,27 @@ int main(int mpinit, char** mpinput) {
             startline += load[i];
 
          // Plaintext encryption loop
-         float starttime = MPI_Wtime();
+         double starttime = MPI_Wtime();
          for(int i=0; i<load[rank]; i++){
             char2longlong(inmsg[i], inmsg_ll[i]);
             encrypt(inmsg_ll[i], pube, pubmod, outmsg_ll[i], len[i+startline]);
          }
-         float endtime = MPI_Wtime();
+         double endtime = MPI_Wtime();
 
          // Count elapsed time
-         float elapsedtime[rank] = endtime-starttime;
+         elapsedtime[rank] = endtime-starttime;
 
          // Collecting encrypted text back to master node
          if(rank != MASTER){
             MPI_Send(outmsg_ll[0], sendsize[rank], MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD);
-            MPI_Send(elapsedtime[0], 1, MPI_FLOAT, MASTER, 0, MPI_COMM_WORLD);
+            MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
             MPI_Recv(outmsg_ll[0]+(sendsize[0]), sendsize[1], MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(elapsedtime[1], 1, MPI_FLOAT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             MPI_Recv(outmsg_ll[0]+(sendsize[0]+sendsize[1]), sendsize[2], MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(elapsedtime[2], 1, MPI_FLOAT, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
          }
 
          // Synchronisation before printing
@@ -162,8 +163,16 @@ int main(int mpinit, char** mpinput) {
             }
             encrypted.close();
 
+            // Debug
+            for(int i=0; i<NUM_PI; i++){
+               std::cout << std::endl;
+               std::cout << load[i] << std::endl;
+               std::cout << sendsize[i] << std::endl;
+               std::cout << elapsedtime[i] << std::endl;
+            }
+
             // Printing nodes' performance
-            std::ofstream performance("performance.txt");
+            std::ofstream performance("performance");
             for(int i=0; i<NUM_PI; i++)
                performance << elapsedtime[i] << " ";
             performance.close();
@@ -187,7 +196,7 @@ int main(int mpinit, char** mpinput) {
             privkey.close();
 
             // Performance summary load
-            std::ifstream time("performance.txt");
+            std::ifstream time("performance");
             for(int i=0; i<NUM_PI; i++)
                time >> lasttime[i];
             time.close();
@@ -235,22 +244,27 @@ int main(int mpinit, char** mpinput) {
             startline += load[i];
 
          // Ciphertext decryption loop
+         double starttime = MPI_Wtime();
          for(int i=0; i<load[rank]; i++){
             decrypt(inmsg_ll[i], prive, privmod, outmsg_ll[i], len[i+startline]);
             longlong2char(outmsg_ll[i], outmsg[i]);
          }
+         double endtime = MPI_Wtime();
+
+         // Count elapsed time
+         elapsedtime[rank] = endtime-starttime;
 
          // Collecting decrypted text back to master node
          if(rank != MASTER){
             MPI_Send(outmsg[0], sendsize[rank], MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
-            MPI_Send(elapsedtime[0], 1, MPI_FLOAT, MASTER, 0, MPI_COMM_WORLD);
+            MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
-            MPI_Recv(outmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(elapsedtime[1], 1, MPI_FLOAT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(outmsg[0]+(sendsize[0]), sendsize[1], MPI_BYTE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            MPI_Recv(outmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(elapsedtime[2], 1, MPI_FLOAT, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(outmsg[0]+(sendsize[0]+sendsize[1]), sendsize[2], MPI_BYTE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
          }
 
          // Synchronisation before printing
@@ -264,8 +278,17 @@ int main(int mpinit, char** mpinput) {
                   decrypted << outmsg[i] << std::endl;
             decrypted.close();
 
+
+            // Debug
+            for(int i=0; i<NUM_PI; i++){
+               std::cout << std::endl;
+               std::cout << load[i] << std::endl;
+               std::cout << sendsize[i] << std::endl;
+               std::cout << elapsedtime[i] << std::endl;
+            }
+
             // Printing nodes' performance
-            std::ofstream performance("performance.txt");
+            std::ofstream performance("performance");
             for(int i=0; i<NUM_PI; i++)
                performance << elapsedtime[i] << " ";
             performance.close();
@@ -315,9 +338,9 @@ int decrypt(long long int* in, long long int exp, long long int mod, long long i
    return 0;
 }
 
-int loadBalance(float* in, int* out, int line){
-   float work[NUM_PI];
-   float sum=0;
+int loadBalance(double* in, int* out, int line){
+   double work[NUM_PI];
+   double sum=0;
    int total=0;
 
    for(int i=0; i<NUM_PI;i++){
