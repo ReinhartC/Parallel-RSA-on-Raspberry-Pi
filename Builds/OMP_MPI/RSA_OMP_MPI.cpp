@@ -151,6 +151,7 @@ int main(int mpinit, char** mpinput) {
             // Print Runtime of each node
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
+               std::cout << "Node " << i << std::endl;
                std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
             }
          }
@@ -246,6 +247,7 @@ int main(int mpinit, char** mpinput) {
             // Print Runtime of each node
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
+               std::cout << "Node " << i << std::endl;
                std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
             }
          }
