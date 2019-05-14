@@ -338,6 +338,7 @@ int decrypt(long long int* in, long long int exp, long long int mod, long long i
    return 0;
 }
 
+// Calculate load distribution
 int loadBalance(double* in, int* out, int line){
    double work[NUM_PI];
    double sum=0;
