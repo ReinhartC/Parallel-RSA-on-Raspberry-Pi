@@ -11,6 +11,8 @@ This RSA Encryption and Decryption build works on parallel using the MPI impleme
 4. Encrypt/Decrypt the given lines from the input file on parallel on every node, which the processing of the characters in every line is done in multithread.
 5. Merge the result and print it to an output file
 
+> *The [Load](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI/Load "Load") folder is a sample code for workload to test the load balance algorithm* 
+
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI">
 		<b>← OpenMP and MPI Hybrid Build</b>
