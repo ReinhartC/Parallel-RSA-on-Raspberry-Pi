@@ -8,7 +8,7 @@ The implementation that is used in this project is using OpenMP for the multithr
 
 The project can be seen in [Builds](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds "Builds") folder which contains the implementations and details for the RSA Encryption and Decryption builds.
 
-## Implementing the Project
+## Project Implementation
 ### Tools
 + Raspberry Pi 3 *(I used 3 pieces of Model B 2015 in this project)*
 + SD Cards
