@@ -163,12 +163,12 @@ int main(int mpinit, char** mpinput) {
             }
             encrypted.close();
 
-            // Debug
+            // Load balancing debug
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
-               std::cout << load[i] << std::endl;
-               std::cout << sendsize[i] << std::endl;
-               std::cout << elapsedtime[i] << std::endl;
+               std::cout << "Node " << i << std::endl;
+               std::cout << "Load given: " << load[i] << std::endl;
+               std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
             }
 
             // Printing nodes' performance
@@ -279,12 +279,12 @@ int main(int mpinit, char** mpinput) {
             decrypted.close();
 
 
-            // Debug
+            // Load balancing debug
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
-               std::cout << load[i] << std::endl;
-               std::cout << sendsize[i] << std::endl;
-               std::cout << elapsedtime[i] << std::endl;
+               std::cout << "Node " << i << std::endl;
+               std::cout << "Load given: " << load[i] << std::endl;
+               std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
             }
 
             // Printing nodes' performance

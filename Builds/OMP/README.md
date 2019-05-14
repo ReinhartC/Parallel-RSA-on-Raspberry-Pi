@@ -13,10 +13,10 @@ This RSA Encryption and Decryption build works on multithread using the OpenMP i
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/Serial">
-		<b>← Serial build</b>
+		<b>← Serial Build</b>
 	</a>  
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI">
-		<b>MPI build →</b>
+		<b>MPI Build →</b>
 	</a>  
 </p>
 <p align="center">

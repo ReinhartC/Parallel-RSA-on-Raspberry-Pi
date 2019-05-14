@@ -13,10 +13,10 @@ This RSA Encryption and Decryption build works on parallel using the MPI impleme
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/MPI">
-		<b>← MPI build</b>
-	</a>  
+		<b>← MPI Build</b>
+	</a> 
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI">
-		<b>Load balanced OpenMP and MPI Hybrid build →</b>
+		<b>Load balanced OpenMP and MPI Hybrid Build →</b>
 	</a>
 </p>
 <p align="center">

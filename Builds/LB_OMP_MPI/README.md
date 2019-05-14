@@ -1,4 +1,4 @@
-# RSA OpenMP and MPI Hybrid Build
+# RSA Load Balanced OpenMP and MPI Hybrid Build
 *Parallel RSA Encryption and Decryption with OpenMP and MPI Hybrid Implementation with Load Balancing*
 
 ## Description
@@ -13,8 +13,8 @@ This RSA Encryption and Decryption build works on parallel using the MPI impleme
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI">
-		<b>← OpenMP and MPI Hybrid build</b>
-	</a>  
+		<b>← OpenMP and MPI Hybrid Build</b>
+	</a>   
 </p>
 <p align="center">
     <a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds">

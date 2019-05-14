@@ -13,7 +13,7 @@ This RSA Encryption and Decryption build is the basic of all the builds. Every p
 
 <p align="center">
 	<a href="https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP">
-		<b>OpenMP build →</b>
+		<b>OpenMP Build →</b>
 	</a>  
 </p>
 <p align="center">
