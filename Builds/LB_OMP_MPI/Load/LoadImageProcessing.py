@@ -5,7 +5,7 @@ from PIL import Image
 from functools import reduce
 
 def main ():
-
+    print("Image processing started")
     filename = "img.jpg"
 
     im = Image.open(filename)
@@ -145,6 +145,8 @@ def main ():
     crop_image = Image.new("RGB", crop_size, (0,0,0))
     crop_image.paste(new_im, ((crop_size[0] - new_im.size[0]) // 2,
                      (crop_size[1] - new_im.size[1]) // 2))
+
+    print("Image processing completed")
 
 if ( __name__ == "__main__"):
     main()
