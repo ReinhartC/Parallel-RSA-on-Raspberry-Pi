@@ -163,7 +163,7 @@ int main(int mpinit, char** mpinput) {
             }
             encrypted.close();
 
-            // Load balancing debug
+            // Print Time and Load distribution
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
                std::cout << "Node " << i << std::endl;
@@ -279,7 +279,7 @@ int main(int mpinit, char** mpinput) {
             decrypted.close();
 
 
-            // Load balancing debug
+            // Print Time and Load distribution
             for(int i=0; i<NUM_PI; i++){
                std::cout << std::endl;
                std::cout << "Node " << i << std::endl;

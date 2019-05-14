@@ -50,6 +50,9 @@ int main(int mpinit, char** mpinput) {
    char outmsg[MAX_LINE][MAX_STR_LEN];
    long long int outmsg_ll[MAX_LINE][MAX_STR_LEN];
 
+   // Time Monitoring Variable
+   double elapsedtime[NUM_PI];
+
    char node_name[MPI_MAX_PROCESSOR_NAME];
    int name_len;
    MPI_Get_processor_name(node_name, &name_len);
@@ -106,18 +109,28 @@ int main(int mpinit, char** mpinput) {
          int startline = rank*work;
 
          // Plaintext encryption loop
+         double starttime = MPI_Wtime();
          for(int i=0; i<work; i++){
             char2longlong(inmsg[i], inmsg_ll[i]);
             encrypt(inmsg_ll[i], pube, pubmod, outmsg_ll[i], len[i+startline]);
          }
+         double endtime = MPI_Wtime();
+
+         // Count elapsed time
+         elapsedtime[rank] = endtime-starttime;
 
          // Collecting encrypted text back to master node
          if(rank != MASTER){
             MPI_Send(outmsg_ll[0], sendsize, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD);
+            MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
             MPI_Recv(outmsg_ll[0]+sendsize, sendsize, MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
             MPI_Recv(outmsg_ll[0]+2*sendsize, sendsize, MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
          }
 
          // Synchronisation before printing
@@ -134,6 +147,12 @@ int main(int mpinit, char** mpinput) {
                }
             }
             encrypted.close();
+
+            // Print Runtime of each node
+            for(int i=0; i<NUM_PI; i++){
+               std::cout << std::endl;
+               std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
+            }
          }
 
          // Final synchronisation and finalizing
@@ -190,18 +209,27 @@ int main(int mpinit, char** mpinput) {
          int startline = rank*work;
 
          // Ciphertext decryption loop
+         double starttime = MPI_Wtime();
          for(int i=0; i<work; i++){
             decrypt(inmsg_ll[i], prive, privmod, outmsg_ll[i], len[i+startline]);
             longlong2char(outmsg_ll[i], outmsg[i]);
          }
+         double endtime = MPI_Wtime();
+
+         // Count elapsed time
+         elapsedtime[rank] = endtime-starttime;
 
          // Collecting decrypted text back to master node
          if(rank != MASTER){
             MPI_Send(outmsg[0], sendsize, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD);
+            MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
             MPI_Recv(outmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
             MPI_Recv(outmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
          }
 
          // Synchronisation before printing
@@ -214,6 +242,12 @@ int main(int mpinit, char** mpinput) {
                if(len[i]>0)
                   decrypted << outmsg[i] << std::endl;
             decrypted.close();
+
+            // Print Runtime of each node
+            for(int i=0; i<NUM_PI; i++){
+               std::cout << std::endl;
+               std::cout << "Elapsed time: " << elapsedtime[i] << std::endl;
+            }
          }
 
          // Final synchronisation and finalizing
