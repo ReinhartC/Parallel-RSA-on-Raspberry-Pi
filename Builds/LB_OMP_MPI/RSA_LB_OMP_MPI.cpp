@@ -347,8 +347,8 @@ int loadBalance(double* in, int* out, int line){
    for(int i=0; i<NUM_PI;i++){
       work[i] = 1/in[i];
       sum += work[i];
-   }  
-   
+   }
+
    for(int i=0; i<NUM_PI;i++){
       out[i] = (work[i]/sum)*line;
       total += out[i];
