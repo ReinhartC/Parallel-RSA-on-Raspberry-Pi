@@ -7,7 +7,7 @@ This RSA Encryption and Decryption build works on parallel using the MPI impleme
 #### The processes are:
 1. Loading the keys from the key file (*Public key* on encryption and *Private key* on decryption)
 2. Loading the input file that will be processed (*Plaintext* on encryption and *Ciphertext* on decryption)
-3. Divide the load from the input file to every node in the cluster with the amount that is based on its performance
+3. Divide the load from the input file to every node in the cluster with the amount that is based on its previous performance
 4. Encrypt/Decrypt the given lines from the input file on parallel on every node, which the processing of the characters in every line is done in multithread.
 5. Merge the result and print it to an output file
 
