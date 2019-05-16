@@ -34,7 +34,7 @@ Then, configure the MPICH to the target folder. (This'll took sometime)
 ```
 sudo /home/pi/mpich/mpich-3.1/configure -prefix=/home/rpimpi/mpi-install
 ```
-After the above is done, install the MPICH. (This'll took a lot of time. Make some coffee :coffee:)
+After the process above is done, install the MPICH. (This'll took a lot of time. Make some coffee :coffee:)
 ```
 sudo make
 sudo make install
