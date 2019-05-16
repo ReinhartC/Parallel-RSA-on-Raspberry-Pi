@@ -49,7 +49,7 @@ iface default inet dhcp
 
 + `X2.Y2.Z2` is the subnet to your wireless connection and `NW` is the preferred static address for the node on your wireless network. *E.g. `192.168.1.101`*.
 
-Manage wireless interface configuration in `/etc/wpa_supplicant/wpa_supplicant.conf` with the following so the wireless network is automatically connected on every reboot.
+Manage wireless interface configuration in `/etc/wpa_supplicant/wpa_supplicant.conf` with the following so the wireless network is automatically connected on every reboot. *(Optional)*
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
