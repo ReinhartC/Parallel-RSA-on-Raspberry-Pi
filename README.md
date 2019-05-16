@@ -28,11 +28,6 @@ To set up the cluster, simply connect each Raspberry Pi with each other through 
 <br><br>
 <p align="center">
     <a>
-    	Author
-    </a>  
-</p>
-<p align="center">
-    <a>
-        <b>Reinhart Caesar - 0511540000132<b>
+        <b>© 2019 Reinhart Caesar<b>
     </a>  
 </p>
