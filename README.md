@@ -6,7 +6,7 @@ The main purpose of this project is to research the best method to decrease the 
 
 The implementation that is used in this project is using OpenMP for the multithreading and MPI for the parallelization of the processes with the goal of decreasing the processing time compared to the other types of implementations on the same device.
 
-The project can be seen in [Builds](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds "Builds") folder which contains the implementations and details for the RSA Encryption and Decryption builds.
+The project can be seen in the [Builds](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds "Builds") folder which contains the implementations and details for the RSA Encryption and Decryption builds.
 
 ## Project Implementation
 ### Tools
