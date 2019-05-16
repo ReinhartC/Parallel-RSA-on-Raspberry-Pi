@@ -29,5 +29,5 @@ To set up the cluster, simply connect each Raspberry Pi with each other through 
 <p align="center">
     <a>
         <b>© 2019 Reinhart Caesar<b>
-    </a>
+    </a> 
 </p>
