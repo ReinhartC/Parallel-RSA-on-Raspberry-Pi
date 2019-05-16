@@ -76,8 +76,8 @@ int main(int argc, char *argv[])
 8. It should output with a response from every node. *E.g.*
 ```
 Process 0 of 3 is on master_node
-Process 2 of 3 is on slave_node_2
 Process 1 of 3 is on slave_node_1
+Process 2 of 3 is on slave_node_2
 pi is approximately 3.1415926544231318, Error is 0.0000000008333387
 wall clock time = 0.006050
 ```
