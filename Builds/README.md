@@ -26,17 +26,17 @@ Build | Complexity
 **OMP_MPI** | `mpi+omp+((line/n)*(char/c)*p)`
 
 **Note**
-	- `line` is the amount of lines on input
-	- `char` is the amount of characters on each line
-	- `p` is the process (Encryption/Decryption)
-	- `n` is the node amount
-	- `c` is the core amount on each node
-	- `omp` is the OpenMP Operations (Pragma omp parallel)
-	- `mpi` is the MPI Operations (Brodcast, Send, Receive)
+- `line` is the amount of lines on input
+- `char` is the amount of characters on each line
+- `p` is the process (Encryption/Decryption)
+- `n` is the node amount
+- `c` is the core amount on each node
+- `omp` is the OpenMP Operations (Pragma omp parallel)
+- `mpi` is the MPI Operations (Brodcast, Send, Receive)
 
 ### Runtime Comparison
-+ Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")
-+ Time comparison for Load Balancing on **OpenMP and MPI Hybrid** Implementation could be seen [here](http://tiny.cc/RSALoadBalanceTimeCompare "RSA OpenMP and MPI Hybrid Load Balance Time Comparison")
+1. Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")
+2. Time comparison for Load Balancing on **OpenMP and MPI Hybrid** Implementation could be seen [here](http://tiny.cc/RSALoadBalanceTimeCompare "RSA OpenMP and MPI Hybrid Load Balance Time Comparison")
 
 ## Other
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
