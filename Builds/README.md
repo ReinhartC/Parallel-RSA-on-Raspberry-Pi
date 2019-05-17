@@ -32,7 +32,7 @@ Build | Job distribution
 - `n` is the node amount
 - `c` is the core amount on each node
 - The OpenMP Operations such as `Pragma omp parallel` is negligible to the performance
-- The MPI Operations such as `Brodcast`, `Send`, `Receive` are negligible to the performance
+- The MPI Operations such as `Brodcast`, `Send`, `Receive` are almost negligible to the performance
 
 ### Runtime Comparison
 + Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")
