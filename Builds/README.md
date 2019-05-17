@@ -17,9 +17,24 @@ Every builds execute the same main processes, but only differs in the job distri
 + [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**
 + [LB_OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI "LB_OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**, that used a load balancing in the **MPI** work distribution.
 
-> ***Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")***
+### Complexity
++ **Serial** `(line)*(char)*p`
++ **OMP** `omp+((line)*(char/c)*p)`
++ **MPI** `mpi+((line/n)*(char)*p)`
++ **OMP_MPI** `mpi+omp+((line/n)*(char/c)*p)`
 
-> *Time comparison for Load Balancing on **OpenMP and MPI Hybrid** Implementation could be seen [here](http://tiny.cc/RSALoadBalanceTimeCompare "RSA OpenMP and MPI Hybrid Load Balance Time Comparison")*
+**Note**
+- `line` is the amount of lines on input
+- `char` is the amount of characters on each line
+- `p` is the process (Encryption/Decryption)
+- `n` is the node amount
+- `c` is the core amount on each node
+- `omp` is the OpenMP Operations (Pragma omp parallel)
+- `mpi` is the MPI Operations (Brodcast, Send, Receive)
+
+### Runtime Comparison
++ Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")
++ Time comparison for Load Balancing on **OpenMP and MPI Hybrid** Implementation could be seen [here](http://tiny.cc/RSALoadBalanceTimeCompare "RSA OpenMP and MPI Hybrid Load Balance Time Comparison")
 
 ## Other
 + [~Inputs](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/~Inputs "~Inputs") are some of the sample inputs for testing on some different sizes
