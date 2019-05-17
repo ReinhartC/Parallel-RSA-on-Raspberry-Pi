@@ -17,13 +17,13 @@ Every builds execute the same main processes, but only differs in the job distri
 + [OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/OMP_MPI "OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**
 + [LB_OMP_MPI](https://github.com/ReinhartC/Parallel-RSA-on-Raspberry-Pi/tree/master/Builds/LB_OMP_MPI "LB_OMP_MPI build") build is the RSA encryption and decryption implementation that is executed with *multiple processors* on *multiple nodes* in a parallel cluster with the **OpenMP and MPI Hybrid**, that used a load balancing in the **MPI** work distribution.
 
-### Complexity
-Build | Complexity
+### Job Distribution
+Build | Job distribution
 ----- | -----
 **Serial** | `(line)*(char)*p`
-**OMP** | `omp+((line)*(char/c)*p)`
-**MPI** | `mpi+((line/n)*(char)*p)`
-**OMP_MPI** | `mpi+omp+((line/n)*(char/c)*p)`
+**OMP** | `(line)*(char/c)*p`
+**MPI** | `(line/n)*(char)*p`
+**OMP_MPI** | `(line/n)*(char/c)*p`
 
 **Note**
 - `line` is the amount of lines on input
@@ -31,8 +31,8 @@ Build | Complexity
 - `p` is the process (Encryption/Decryption)
 - `n` is the node amount
 - `c` is the core amount on each node
-- `omp` is the OpenMP Operations (Pragma omp parallel)
-- `mpi` is the MPI Operations (Brodcast, Send, Receive)
+- The OpenMP Operations such as `Pragma omp parallel` is negligible to the performance
+- The MPI Operations such as `Brodcast`, `Send`, `Receive` are negligible to the performance
 
 ### Runtime Comparison
 + Time comparison between the builds above could be seen [here](http://tiny.cc/RSABuildsTimeComparison "RSA Builds Time Comparison")
