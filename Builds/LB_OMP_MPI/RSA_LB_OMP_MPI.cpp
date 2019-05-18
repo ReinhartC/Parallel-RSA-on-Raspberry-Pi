@@ -174,7 +174,7 @@ int main(int mpinit, char** mpinput) {
             // Printing nodes' performance
             std::ofstream performance("performance");
             for(int i=0; i<NUM_PI; i++)
-               performance << elapsedtime[i] << " ";
+               performance << elapsedtime[i]/((load[i]==0)?1:(double)(load[i])) << " ";
             performance.close();
          }
 
@@ -290,7 +290,7 @@ int main(int mpinit, char** mpinput) {
             // Printing nodes' performance
             std::ofstream performance("performance");
             for(int i=0; i<NUM_PI; i++)
-               performance << elapsedtime[i] << " ";
+               performance << elapsedtime[i]/((load[i]==0)?1:(double)(load[i])) << " ";
             performance.close();
          }
 
