@@ -118,7 +118,6 @@ int main(int mpinit, char** mpinput) {
                sendsum += sendsize[i-1];
                MPI_Send(inmsg[0]+sendsum, sendsize[i], MPI_BYTE, i, 0, MPI_COMM_WORLD);
             }
-            sendsum = 0;
          }
          if(rank != MASTER){
             MPI_Recv(inmsg[0], sendsize[rank], MPI_BYTE, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -152,7 +151,6 @@ int main(int mpinit, char** mpinput) {
                MPI_Recv(outmsg_ll[0]+sendsum, sendsize[i], MPI_LONG_LONG, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                MPI_Recv(&elapsedtime[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             }
-            sendsum = 0;
          }
 
          // Synchronisation before printing
@@ -243,7 +241,6 @@ int main(int mpinit, char** mpinput) {
                sendsum += sendsize[i-1];
                MPI_Send(inmsg_ll[0]+sendsum, sendsize[i], MPI_LONG_LONG, i, 0, MPI_COMM_WORLD);
             }
-            sendsum = 0;
          }
          if(rank != MASTER){
             MPI_Recv(inmsg_ll[0], sendsize[rank], MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -277,7 +274,6 @@ int main(int mpinit, char** mpinput) {
                MPI_Recv(outmsg[0]+sendsum, sendsize[i], MPI_BYTE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                MPI_Recv(&elapsedtime[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             }
-            sendsum = 0;
          }
 
          // Synchronisation before printing
