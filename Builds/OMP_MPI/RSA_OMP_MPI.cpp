@@ -98,8 +98,9 @@ int main(int mpinit, char** mpinput) {
 
          // Distributing plaintext to nodes
          if(rank == MASTER){
-            MPI_Send(inmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD);
-            MPI_Send(inmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD);
+            for(int i=1; i<NUM_PI; i++){
+               MPI_Send(inmsg[0]+i*sendsize, sendsize, MPI_BYTE, i, 0, MPI_COMM_WORLD);
+            }
          }
          if(rank != MASTER){
             MPI_Recv(inmsg[0], sendsize, MPI_BYTE, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -125,12 +126,10 @@ int main(int mpinit, char** mpinput) {
             MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
-            MPI_Recv(outmsg_ll[0]+sendsize, sendsize, MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-            MPI_Recv(outmsg_ll[0]+2*sendsize, sendsize, MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
+            for(int i=1; i<NUM_PI; i++){
+               MPI_Recv(outmsg_ll[0]+i*sendsize, sendsize, MPI_LONG_LONG, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+               MPI_Recv(&elapsedtime[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
          }
 
          // Synchronisation before printing
@@ -199,8 +198,9 @@ int main(int mpinit, char** mpinput) {
 
          // Distributing ciphertext to nodes
          if(rank == MASTER){
-            MPI_Send(inmsg_ll[0]+sendsize, sendsize, MPI_LONG_LONG, 1, 0, MPI_COMM_WORLD);
-            MPI_Send(inmsg_ll[0]+2*sendsize, sendsize, MPI_LONG_LONG, 2, 0, MPI_COMM_WORLD);
+            for(int i=1; i<NUM_PI; i++){
+               MPI_Send(inmsg_ll[0]+i*sendsize, sendsize, MPI_LONG_LONG, i, 0, MPI_COMM_WORLD);
+            }
          }
          if(rank != MASTER){
             MPI_Recv(inmsg_ll[0], sendsize, MPI_LONG_LONG, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -226,11 +226,10 @@ int main(int mpinit, char** mpinput) {
             MPI_Send(&elapsedtime[rank], 1, MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
          }
          if(rank == MASTER){
-            MPI_Recv(outmsg[0]+sendsize, sendsize, MPI_BYTE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(&elapsedtime[1], 1, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-            MPI_Recv(outmsg[0]+2*sendsize, sendsize, MPI_BYTE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(&elapsedtime[2], 1, MPI_DOUBLE, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            for(int i=1; i<NUM_PI; i++){
+               MPI_Recv(outmsg[0]+i*sendsize, sendsize, MPI_BYTE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+               MPI_Recv(&elapsedtime[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
          }
 
          // Synchronisation before printing
