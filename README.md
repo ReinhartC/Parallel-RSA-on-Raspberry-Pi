@@ -1,5 +1,5 @@
 # Parallel RSA on Raspberry Pi
-***Informatics Final Project assignment***
+***Informatics Undergraduate Thesis***
 
 ## Project Description
 The main purpose of this project is to research the best method to decrease the processing time of a process through parallel computing approach. The case study that is used in this project is the RSA Encryption and Decryption with Raspberry Pi Cluster as the device.
